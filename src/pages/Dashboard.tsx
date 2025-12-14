@@ -1,0 +1,112 @@
+import { MainLayout } from '@/components/layout/MainLayout';
+import { TaskCard } from '@/components/dashboard/TaskCard';
+import { FocusCard } from '@/components/dashboard/FocusCard';
+import { StatsCard } from '@/components/dashboard/StatsCard';
+import { DeadlinesCard } from '@/components/dashboard/DeadlinesCard';
+import { HeatmapCard } from '@/components/dashboard/HeatmapCard';
+import { useTasks } from '@/hooks/useTasks';
+import { useFocusTimer } from '@/hooks/useFocusTimer';
+import { useStreak } from '@/hooks/useStreak';
+import { CheckCircle2, Flame, Clock, Target } from 'lucide-react';
+
+export default function Dashboard() {
+  const { tasks, todayTasks, completedToday, upcomingDeadlines, addTask, toggleTask, deleteTask } = useTasks();
+  const {
+    sessions,
+    isRunning,
+    currentSeconds,
+    currentCategory,
+    todayFocusMinutes,
+    weekFocusMinutes,
+    startTimer,
+    stopTimer,
+    setCurrentCategory,
+    formatTime,
+  } = useFocusTimer();
+  const streak = useStreak(tasks, sessions);
+
+  const formatHours = (minutes: number) => {
+    const hrs = Math.floor(minutes / 60);
+    const mins = Math.round(minutes % 60);
+    if (hrs > 0) return `${hrs}h ${mins}m`;
+    return `${mins}m`;
+  };
+
+  return (
+    <MainLayout>
+      <div className="mb-8">
+        <h1 className="text-3xl font-display text-foreground mb-1">Good day!</h1>
+        <p className="text-muted-foreground">
+          {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-4 gap-6 auto-rows-min">
+        {/* Task Card - Large */}
+        <TaskCard
+          tasks={todayTasks}
+          onAdd={addTask}
+          onToggle={toggleTask}
+          onDelete={deleteTask}
+        />
+
+        {/* Focus Timer Card */}
+        <FocusCard
+          isRunning={isRunning}
+          currentSeconds={currentSeconds}
+          currentCategory={currentCategory}
+          todayFocusMinutes={todayFocusMinutes}
+          onStart={startTimer}
+          onStop={stopTimer}
+          onCategoryChange={setCurrentCategory}
+          formatTime={formatTime}
+        />
+
+        {/* Stats Cards */}
+        <StatsCard
+          title="Tasks Completed"
+          value={completedToday}
+          subtitle="today"
+          icon={CheckCircle2}
+          colorVariant="peach"
+          delay={2}
+        />
+
+        <StatsCard
+          title="Current Streak"
+          value={streak}
+          subtitle={streak === 1 ? 'day' : 'days'}
+          icon={Flame}
+          colorVariant="pink"
+          delay={3}
+        />
+
+        {/* Deadlines Card */}
+        <DeadlinesCard deadlines={upcomingDeadlines} delay={4} />
+
+        {/* Weekly Focus */}
+        <StatsCard
+          title="Weekly Focus"
+          value={formatHours(weekFocusMinutes)}
+          subtitle="this week"
+          icon={Clock}
+          colorVariant="blue"
+          delay={5}
+        />
+
+        {/* Heatmap Card */}
+        <HeatmapCard tasks={tasks} sessions={sessions} delay={6} />
+
+        {/* Goal Card */}
+        <StatsCard
+          title="Daily Goal"
+          value={`${Math.round((todayFocusMinutes / 120) * 100)}%`}
+          subtitle="2h target"
+          icon={Target}
+          colorVariant="green"
+          delay={7}
+        />
+      </div>
+    </MainLayout>
+  );
+}
