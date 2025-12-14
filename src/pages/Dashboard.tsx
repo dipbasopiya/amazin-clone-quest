@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 export default function Dashboard() {
   const { tasks, completedToday, upcomingDeadlines } = useTasks();
   const { blocks, getBlocksForDay } = useRoutine();
-  const { toggleBlockCompletion, getCompletedBlockIds, completedCount: routineCompletedCount } = useRoutineCompletion();
+  const { toggleBlockCompletion, getCompletedBlockIds, completedCount: routineCompletedCount, allCompletions } = useRoutineCompletion();
   const {
     sessions,
     isRunning,
@@ -30,7 +30,7 @@ export default function Dashboard() {
     setCurrentCategory,
     formatTime,
   } = useFocusTimer();
-  const streak = useStreak(tasks, sessions);
+  const streak = useStreak(tasks, sessions, allCompletions);
   const { settings } = useSettings();
   const fitToScreen = settings.fitToScreen;
 
@@ -83,7 +83,7 @@ export default function Dashboard() {
         {/* Stats Cards */}
         <StatsCard
           title="Tasks Completed"
-          value={completedToday}
+          value={completedToday + routineCompletedCount}
           subtitle="today"
           icon={CheckCircle2}
           colorVariant="peach"
