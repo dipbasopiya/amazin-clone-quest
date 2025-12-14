@@ -1,52 +1,66 @@
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 
-interface CompletionRecord {
+export interface CompletionRecord {
   blockId: string;
   completedAt: string;
+  date: string;
 }
 
-interface DailyCompletions {
-  date: string;
+interface CompletionHistory {
   completions: CompletionRecord[];
 }
 
 export function useRoutineCompletion() {
   const todayKey = new Date().toISOString().split('T')[0];
   
-  const [dailyCompletions, setDailyCompletions] = useLocalStorage<DailyCompletions>(
-    `fluxion-routine-completions-${todayKey}`,
-    { date: todayKey, completions: [] }
+  // Store all completions in a single history object
+  const [history, setHistory] = useLocalStorage<CompletionHistory>(
+    'fluxion-routine-completions',
+    { completions: [] }
   );
 
+  // Get today's completions
+  const todayCompletions = useMemo(() => {
+    return history.completions.filter((c) => c.date === todayKey);
+  }, [history.completions, todayKey]);
+
   const toggleBlockCompletion = useCallback((blockId: string) => {
-    setDailyCompletions((prev) => {
-      const isCompleted = prev.completions.some((c) => c.blockId === blockId);
+    setHistory((prev) => {
+      const existingCompletion = prev.completions.find(
+        (c) => c.blockId === blockId && c.date === todayKey
+      );
       
-      if (isCompleted) {
+      if (existingCompletion) {
+        // Remove completion
         return {
-          ...prev,
-          completions: prev.completions.filter((c) => c.blockId !== blockId),
+          completions: prev.completions.filter(
+            (c) => !(c.blockId === blockId && c.date === todayKey)
+          ),
         };
       } else {
+        // Add completion
         return {
-          ...prev,
           completions: [
             ...prev.completions,
-            { blockId, completedAt: new Date().toISOString() },
+            { 
+              blockId, 
+              completedAt: new Date().toISOString(),
+              date: todayKey,
+            },
           ],
         };
       }
     });
-  }, [setDailyCompletions]);
+  }, [setHistory, todayKey]);
 
   const isBlockCompleted = useCallback((blockId: string) => {
-    return dailyCompletions.completions.some((c) => c.blockId === blockId);
-  }, [dailyCompletions.completions]);
+    return todayCompletions.some((c) => c.blockId === blockId);
+  }, [todayCompletions]);
 
   const getCompletedBlockIds = useMemo(() => {
-    return new Set(dailyCompletions.completions.map((c) => c.blockId));
-  }, [dailyCompletions.completions]);
+    return new Set(todayCompletions.map((c) => c.blockId));
+  }, [todayCompletions]);
 
   const isBlockMissed = useCallback((blockId: string, endHour: number) => {
     const currentHour = new Date().getHours();
@@ -54,11 +68,38 @@ export function useRoutineCompletion() {
     return !isCompleted && endHour <= currentHour;
   }, [isBlockCompleted]);
 
+  // Get completions count for a specific date
+  const getCompletionsForDate = useCallback((date: string) => {
+    return history.completions.filter((c) => c.date === date);
+  }, [history.completions]);
+
+  // Get all dates that have completions
+  const getProductiveDatesFromRoutine = useMemo(() => {
+    const dates = new Set<string>();
+    history.completions.forEach((c) => dates.add(c.date));
+    return dates;
+  }, [history.completions]);
+
+  // Get total completions count (all time)
+  const totalCompletionsAllTime = useMemo(() => {
+    return history.completions.length;
+  }, [history.completions]);
+
+  // Get all completions (for analytics)
+  const allCompletions = useMemo(() => {
+    return history.completions;
+  }, [history.completions]);
+
   return {
     toggleBlockCompletion,
     isBlockCompleted,
     isBlockMissed,
     getCompletedBlockIds,
-    completedCount: dailyCompletions.completions.length,
+    completedCount: todayCompletions.length,
+    todayCompletions,
+    getCompletionsForDate,
+    getProductiveDatesFromRoutine,
+    totalCompletionsAllTime,
+    allCompletions,
   };
 }
