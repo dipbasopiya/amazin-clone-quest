@@ -9,19 +9,23 @@ import { useAnalytics } from '@/hooks/useAnalytics';
 import { useTasks } from '@/hooks/useTasks';
 import { useFocusTimer } from '@/hooks/useFocusTimer';
 import { useStreak } from '@/hooks/useStreak';
+import { useSettings } from '@/hooks/useSettings';
 import { Clock, CheckCircle2, Flame, Calendar, TrendingUp, Target } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 
 export default function Analytics() {
   const { tasks } = useTasks();
   const { sessions } = useFocusTimer();
   const streak = useStreak(tasks, sessions);
   const { last7Days, last30Days, categoryDistribution, totalStats } = useAnalytics(tasks, sessions);
+  const { settings } = useSettings();
+  const fitToScreen = settings.fitToScreen;
   const [timeRange, setTimeRange] = useState<'week' | 'month'>('week');
 
   return (
     <MainLayout>
-      <div className="flex items-center justify-between mb-8">
+      <div className={cn("flex items-center justify-between mb-8", fitToScreen && "mb-4 flex-shrink-0")}>
         <div>
           <h1 className="text-3xl font-display text-foreground mb-1">Analytics</h1>
           <p className="text-muted-foreground">Track your productivity trends</p>
@@ -35,7 +39,7 @@ export default function Analytics() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+      <div className={cn("grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8", fitToScreen && "mb-4 flex-shrink-0")}>
         <AnalyticsStatCard
           title="Total Focus"
           value={`${totalStats.totalFocusHours}h`}
@@ -81,12 +85,12 @@ export default function Analytics() {
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6", fitToScreen && "flex-1 min-h-0 overflow-auto")}>
         <FocusChart data={timeRange === 'week' ? last7Days : last30Days} type={timeRange === 'week' ? 'daily' : 'weekly'} />
         <TaskTrendChart data={timeRange === 'week' ? last7Days : last30Days} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-6", fitToScreen && "flex-shrink-0")}>
         <CategoryPieChart data={categoryDistribution} />
         <MonthlyOverviewChart data={last30Days} />
       </div>

@@ -7,7 +7,9 @@ import { HeatmapCard } from '@/components/dashboard/HeatmapCard';
 import { useTasks } from '@/hooks/useTasks';
 import { useFocusTimer } from '@/hooks/useFocusTimer';
 import { useStreak } from '@/hooks/useStreak';
+import { useSettings } from '@/hooks/useSettings';
 import { CheckCircle2, Flame, Clock, Target } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
   const { tasks, todayTasks, completedToday, upcomingDeadlines, addTask, toggleTask, deleteTask } = useTasks();
@@ -24,6 +26,8 @@ export default function Dashboard() {
     formatTime,
   } = useFocusTimer();
   const streak = useStreak(tasks, sessions);
+  const { settings } = useSettings();
+  const fitToScreen = settings.fitToScreen;
 
   const formatHours = (minutes: number) => {
     const hrs = Math.floor(minutes / 60);
@@ -34,20 +38,26 @@ export default function Dashboard() {
 
   return (
     <MainLayout>
-      <div className="mb-8">
+      <div className={cn("mb-8", fitToScreen && "mb-4 flex-shrink-0")}>
         <h1 className="text-3xl font-display text-foreground mb-1">Good day!</h1>
         <p className="text-muted-foreground">
           {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
         </p>
       </div>
 
-      <div className="grid grid-cols-4 gap-6 auto-rows-min">
+      <div
+        className={cn(
+          "grid grid-cols-4 gap-6 auto-rows-min",
+          fitToScreen && "flex-1 min-h-0 lg:grid-rows-[1fr_1fr] lg:auto-rows-[1fr]"
+        )}
+      >
         {/* Task Card - Large */}
         <TaskCard
           tasks={todayTasks}
           onAdd={addTask}
           onToggle={toggleTask}
           onDelete={deleteTask}
+          fitToScreen={fitToScreen}
         />
 
         {/* Focus Timer Card */}
@@ -82,7 +92,7 @@ export default function Dashboard() {
         />
 
         {/* Deadlines Card */}
-        <DeadlinesCard deadlines={upcomingDeadlines} delay={4} />
+        <DeadlinesCard deadlines={upcomingDeadlines} delay={4} fitToScreen={fitToScreen} />
 
         {/* Weekly Focus */}
         <StatsCard

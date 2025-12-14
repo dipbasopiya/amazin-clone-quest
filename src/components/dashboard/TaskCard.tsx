@@ -12,9 +12,10 @@ interface TaskCardProps {
   onAdd: (title: string, category: TaskCategory, deadline?: string) => void;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
+  fitToScreen?: boolean;
 }
 
-export function TaskCard({ tasks, onAdd, onToggle, onDelete }: TaskCardProps) {
+export function TaskCard({ tasks, onAdd, onToggle, onDelete, fitToScreen = false }: TaskCardProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState<TaskCategory>('coding');
@@ -31,7 +32,7 @@ export function TaskCard({ tasks, onAdd, onToggle, onDelete }: TaskCardProps) {
   };
 
   return (
-    <BentoCard className="col-span-2 row-span-2" colorVariant="default" delay={0}>
+    <BentoCard className={cn("col-span-2 row-span-2", fitToScreen && "flex flex-col overflow-hidden")} colorVariant="default" delay={0}>
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-medium text-foreground">Today's Tasks</h3>
@@ -82,7 +83,7 @@ export function TaskCard({ tasks, onAdd, onToggle, onDelete }: TaskCardProps) {
         </div>
       )}
 
-      <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
+      <div className={cn("space-y-2 overflow-y-auto pr-2", fitToScreen ? "flex-1 min-h-0" : "max-h-[300px]")}>
         {tasks.length === 0 ? (
           <p className="text-center text-muted-foreground py-8">
             No tasks yet. Add one to get started!
