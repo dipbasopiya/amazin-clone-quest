@@ -6,9 +6,10 @@ import { cn } from '@/lib/utils';
 interface DeadlinesCardProps {
   deadlines: Task[];
   delay?: number;
+  fitToScreen?: boolean;
 }
 
-export function DeadlinesCard({ deadlines, delay = 0 }: DeadlinesCardProps) {
+export function DeadlinesCard({ deadlines, delay = 0, fitToScreen = false }: DeadlinesCardProps) {
   const getUrgencyColor = (deadline: string) => {
     const daysUntil = Math.ceil((new Date(deadline).getTime() - Date.now()) / 86400000);
     if (daysUntil <= 1) return 'text-destructive';
@@ -26,7 +27,7 @@ export function DeadlinesCard({ deadlines, delay = 0 }: DeadlinesCardProps) {
   };
 
   return (
-    <BentoCard colorVariant="yellow" delay={delay}>
+    <BentoCard className={cn(fitToScreen && "flex flex-col overflow-hidden")} colorVariant="yellow" delay={delay}>
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="w-5 h-5 text-soft-yellow-foreground/70" />
         <h3 className="text-sm font-medium text-soft-yellow-foreground">Upcoming Deadlines</h3>
@@ -37,7 +38,7 @@ export function DeadlinesCard({ deadlines, delay = 0 }: DeadlinesCardProps) {
           No upcoming deadlines
         </p>
       ) : (
-        <div className="space-y-3">
+        <div className={cn("space-y-3", fitToScreen && "flex-1 min-h-0 overflow-y-auto")}>
           {deadlines.map((task) => (
             <div key={task.id} className="flex items-center gap-3">
               <div

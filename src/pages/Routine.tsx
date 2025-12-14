@@ -8,17 +8,21 @@ import { BlockFormModal } from '@/components/routine/BlockFormModal';
 import { BentoCard } from '@/components/dashboard/BentoCard';
 import { useRoutine } from '@/hooks/useRoutine';
 import { useTasks } from '@/hooks/useTasks';
+import { useSettings } from '@/hooks/useSettings';
 import { RoutineBlock } from '@/types/routine';
 import { Task, TaskCategory } from '@/types/fluxion';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 type RoutineCategory = TaskCategory | 'break';
 
 export default function Routine() {
   const { blocks, addBlock, updateBlock, deleteBlock, getBlocksForDay, hasConflict } = useRoutine();
   const { tasks, toggleTask } = useTasks();
+  const { settings } = useSettings();
+  const fitToScreen = settings.fitToScreen;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState<RoutineBlock | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -152,7 +156,7 @@ export default function Routine() {
   return (
     <MainLayout>
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className={cn("flex items-center justify-between mb-8", fitToScreen && "mb-4 flex-shrink-0")}>
         <div>
           <h1 className="text-3xl font-display text-foreground mb-1">Routine</h1>
           <p className="text-muted-foreground">
@@ -166,9 +170,9 @@ export default function Routine() {
       </div>
 
       {/* Bento Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+      <div className={cn("grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6", fitToScreen && "flex-1 min-h-0 overflow-hidden")}>
         {/* Primary Card: Today's Timetable - Takes 2 columns */}
-        <BentoCard className="lg:col-span-2 lg:row-span-2 min-h-[500px]" delay={0}>
+        <BentoCard className={cn("lg:col-span-2 lg:row-span-2", fitToScreen ? "overflow-hidden" : "min-h-[500px]")} delay={0}>
           <TodayTimetable
             blocks={todayBlocks}
             tasks={tasks}
