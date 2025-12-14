@@ -1,14 +1,16 @@
 import { useMemo, useEffect, useRef } from 'react';
 import { RoutineBlock, ROUTINE_CATEGORY_COLORS } from '@/types/routine';
 import { Button } from '@/components/ui/button';
-import { Sparkles, RefreshCw, Pencil, Clock, Check } from 'lucide-react';
+import { Sparkles, RefreshCw, Pencil, Clock, Check, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Task, TaskCategory, CATEGORY_COLORS } from '@/types/fluxion';
 
 interface TodayTimetableProps {
   blocks: RoutineBlock[];
   tasks: Task[];
+  completedBlockIds: Set<string>;
   onBlockClick: (block: RoutineBlock) => void;
+  onToggleComplete: (blockId: string) => void;
   onGenerateAIPlan: () => void;
   onApplyPlan: () => void;
   isGenerating?: boolean;
@@ -34,7 +36,9 @@ interface GroupedSlot {
 export function TodayTimetable({
   blocks,
   tasks,
+  completedBlockIds,
   onBlockClick,
+  onToggleComplete,
   onGenerateAIPlan,
   onApplyPlan,
   isGenerating = false,
@@ -219,46 +223,82 @@ export function TodayTimetable({
 
                 {/* Content */}
                 <div className="flex-1 py-1">
-                  {slot.block ? (
-                    <div
-                      onClick={() => onBlockClick(slot.block!)}
-                      style={{ height: '100%' }}
-                      className={cn(
-                        "rounded-xl px-3 py-2 cursor-pointer transition-all duration-200",
-                        "hover:scale-[1.02] hover:shadow-md",
-                        "flex flex-col justify-between",
-                        ROUTINE_CATEGORY_COLORS[slot.block.category].bg
-                      )}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className={cn(
-                            "font-medium text-sm",
-                            ROUTINE_CATEGORY_COLORS[slot.block.category].text
-                          )}>
-                            {slot.block.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {formatHour(slot.block.startHour)} - {formatHour(slot.block.startHour + slot.block.duration)}
-                          </p>
-                        </div>
-                        <span className={cn(
-                          "px-2 py-0.5 rounded-full text-xs font-medium",
-                          ROUTINE_CATEGORY_COLORS[slot.block.category].badge,
-                          ROUTINE_CATEGORY_COLORS[slot.block.category].text
-                        )}>
-                          {ROUTINE_CATEGORY_COLORS[slot.block.category].label}
-                        </span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="self-end opacity-0 group-hover:opacity-100 transition-opacity h-6 px-2"
+                  {slot.block ? (() => {
+                    const isCompleted = completedBlockIds.has(slot.block.id);
+                    const endHour = slot.block.startHour + slot.block.duration;
+                    const isMissed = !isCompleted && endHour <= currentHour;
+                    
+                    return (
+                      <div
+                        style={{ height: '100%' }}
+                        className={cn(
+                          "rounded-xl px-3 py-2 transition-all duration-200 relative",
+                          "flex flex-col justify-between",
+                          ROUTINE_CATEGORY_COLORS[slot.block.category].bg,
+                          isCompleted && "opacity-60",
+                          isMissed && "opacity-40"
+                        )}
                       >
-                        <Pencil className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  ) : (
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onToggleComplete(slot.block!.id);
+                              }}
+                              className={cn(
+                                'w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0',
+                                isCompleted
+                                  ? 'bg-primary border-primary text-primary-foreground'
+                                  : isMissed
+                                    ? 'border-destructive/50 bg-destructive/10'
+                                    : 'border-muted-foreground/50 hover:border-primary'
+                              )}
+                            >
+                              {isCompleted && <Check className="w-3 h-3" />}
+                              {isMissed && !isCompleted && (
+                                <span className="text-[8px] text-destructive font-bold">!</span>
+                              )}
+                            </button>
+                            <div>
+                              <p className={cn(
+                                "font-medium text-sm",
+                                ROUTINE_CATEGORY_COLORS[slot.block.category].text,
+                                isCompleted && "line-through"
+                              )}>
+                                {slot.block.title}
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-0.5">
+                                {formatHour(slot.block.startHour)} - {formatHour(slot.block.startHour + slot.block.duration)}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-medium",
+                              ROUTINE_CATEGORY_COLORS[slot.block.category].badge,
+                              ROUTINE_CATEGORY_COLORS[slot.block.category].text
+                            )}>
+                              {ROUTINE_CATEGORY_COLORS[slot.block.category].label}
+                            </span>
+                            {isMissed && !isCompleted && (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-destructive/10 text-destructive">
+                                Missed
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => onBlockClick(slot.block!)}
+                          className="self-end opacity-0 group-hover:opacity-100 transition-opacity h-6 px-2"
+                        >
+                          <Pencil className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    );
+                  })() : (
                     <div className={cn(
                       "h-full rounded-xl border border-dashed border-border/40",
                       "flex items-center justify-center text-xs text-muted-foreground/50",

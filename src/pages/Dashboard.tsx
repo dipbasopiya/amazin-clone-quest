@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { TaskCard } from '@/components/dashboard/TaskCard';
+import { TodayRoutineCard } from '@/components/dashboard/TodayRoutineCard';
 import { FocusCard } from '@/components/dashboard/FocusCard';
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { DeadlinesCard } from '@/components/dashboard/DeadlinesCard';
@@ -8,11 +9,15 @@ import { useTasks } from '@/hooks/useTasks';
 import { useFocusTimer } from '@/hooks/useFocusTimer';
 import { useStreak } from '@/hooks/useStreak';
 import { useSettings } from '@/hooks/useSettings';
+import { useRoutine } from '@/hooks/useRoutine';
+import { useRoutineCompletion } from '@/hooks/useRoutineCompletion';
 import { CheckCircle2, Flame, Clock, Target } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
-  const { tasks, todayTasks, completedToday, upcomingDeadlines, addTask, toggleTask, deleteTask } = useTasks();
+  const { tasks, completedToday, upcomingDeadlines } = useTasks();
+  const { blocks, getBlocksForDay } = useRoutine();
+  const { toggleBlockCompletion, getCompletedBlockIds, completedCount: routineCompletedCount } = useRoutineCompletion();
   const {
     sessions,
     isRunning,
@@ -28,6 +33,10 @@ export default function Dashboard() {
   const streak = useStreak(tasks, sessions);
   const { settings } = useSettings();
   const fitToScreen = settings.fitToScreen;
+
+  // Get today's routine blocks
+  const todayDayOfWeek = new Date().getDay();
+  const todayBlocks = useMemo(() => getBlocksForDay(todayDayOfWeek), [getBlocksForDay, todayDayOfWeek]);
 
   const formatHours = (minutes: number) => {
     const hrs = Math.floor(minutes / 60);
@@ -51,12 +60,11 @@ export default function Dashboard() {
           fitToScreen && "flex-1 min-h-0 lg:grid-rows-[1fr_1fr] lg:auto-rows-[1fr]"
         )}
       >
-        {/* Task Card - Large */}
-        <TaskCard
-          tasks={todayTasks}
-          onAdd={addTask}
-          onToggle={toggleTask}
-          onDelete={deleteTask}
+        {/* Today's Routine Card - Large */}
+        <TodayRoutineCard
+          blocks={todayBlocks}
+          completedBlockIds={getCompletedBlockIds}
+          onToggleComplete={toggleBlockCompletion}
           fitToScreen={fitToScreen}
         />
 
