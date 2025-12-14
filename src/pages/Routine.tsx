@@ -9,6 +9,7 @@ import { BentoCard } from '@/components/dashboard/BentoCard';
 import { useRoutine } from '@/hooks/useRoutine';
 import { useTasks } from '@/hooks/useTasks';
 import { useSettings } from '@/hooks/useSettings';
+import { useRoutineCompletion } from '@/hooks/useRoutineCompletion';
 import { RoutineBlock } from '@/types/routine';
 import { Task, TaskCategory } from '@/types/fluxion';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ export default function Routine() {
   const { blocks, addBlock, updateBlock, deleteBlock, getBlocksForDay, hasConflict } = useRoutine();
   const { tasks, toggleTask } = useTasks();
   const { settings } = useSettings();
+  const { toggleBlockCompletion, getCompletedBlockIds } = useRoutineCompletion();
   const fitToScreen = settings.fitToScreen;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState<RoutineBlock | null>(null);
@@ -176,7 +178,9 @@ export default function Routine() {
           <TodayTimetable
             blocks={todayBlocks}
             tasks={tasks}
+            completedBlockIds={getCompletedBlockIds}
             onBlockClick={handleBlockClick}
+            onToggleComplete={toggleBlockCompletion}
             onGenerateAIPlan={handleGenerateAIPlan}
             onApplyPlan={handleApplyPlan}
             isGenerating={isGenerating}
