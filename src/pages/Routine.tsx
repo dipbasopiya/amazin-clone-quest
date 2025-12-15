@@ -120,7 +120,8 @@ export default function Routine() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <BentoCard className="lg:col-span-2 lg:row-span-2 min-h-[500px]" delay={0}>
+          {/* Primary card - Today's Schedule with emphasis */}
+          <BentoCard className="lg:col-span-2 lg:row-span-2 min-h-[500px] ring-2 ring-primary/15 ring-offset-2 ring-offset-surface-0" delay={0} elevated>
             <TodayTimetable
               blocks={todayBlocks}
               routineTasks={todayRoutineTasks}

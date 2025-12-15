@@ -96,7 +96,8 @@ export function FocusCard({
           size="lg"
           className={cn(
             'rounded-full px-8 transition-all duration-400',
-            !isRunning && 'shadow-soft hover:shadow-glow'
+            !isRunning && 'shadow-soft hover:shadow-glow hover:scale-105 active:scale-95',
+            isRunning && 'hover:scale-105 active:scale-95'
           )}
         >
           {isRunning ? (

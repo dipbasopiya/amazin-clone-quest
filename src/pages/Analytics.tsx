@@ -40,8 +40,8 @@ export default function Analytics() {
           </Tabs>
         </div>
 
-        {/* Stats Grid - Consistent color logic */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        {/* Stats Grid - KPI Summary Row with emphasis */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8 p-4 bg-surface-1/50 rounded-2xl border border-border/20">
           <AnalyticsStatCard
             title="Total Focus"
             value={`${totalStats.totalFocusHours}h`}
@@ -49,6 +49,7 @@ export default function Analytics() {
             icon={Clock}
             color="cyan"
             delay={0}
+            emphasized
           />
           <AnalyticsStatCard
             title="Tasks Done"
@@ -57,6 +58,7 @@ export default function Analytics() {
             icon={CheckCircle2}
             color="peach"
             delay={1}
+            emphasized
           />
           <AnalyticsStatCard
             title="Current Streak"
@@ -65,6 +67,7 @@ export default function Analytics() {
             icon={Flame}
             color="yellow"
             delay={2}
+            emphasized
           />
           <AnalyticsStatCard
             title="Productive Days"

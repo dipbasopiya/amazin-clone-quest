@@ -140,14 +140,14 @@ export function TodayTimetable({
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-primary/10">
+      {/* Header - Emphasized as primary card */}
+      <div className="flex items-center justify-between mb-4 pb-4 border-b border-border/30">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-primary/15 shadow-soft">
             <Sparkles className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">Today's Schedule</h3>
+            <h3 className="font-semibold text-foreground text-lg">Today's Schedule</h3>
             <p className="text-xs text-muted-foreground">
               {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
             </p>
@@ -159,7 +159,7 @@ export function TodayTimetable({
             size="sm"
             onClick={onGenerateAIPlan}
             disabled={isGenerating}
-            className="gap-1.5 rounded-full text-xs"
+            className="gap-1.5 rounded-full text-xs transition-all duration-300 hover:shadow-soft"
           >
             <RefreshCw className={cn("w-3.5 h-3.5", isGenerating && "animate-spin")} />
             {isGenerating ? 'Generating...' : 'Regenerate'}
@@ -167,7 +167,7 @@ export function TodayTimetable({
           <Button
             size="sm"
             onClick={onApplyPlan}
-            className="gap-1.5 rounded-full text-xs"
+            className="gap-1.5 rounded-full text-xs shadow-soft hover:shadow-glow transition-all duration-300"
           >
             <Check className="w-3.5 h-3.5" />
             Apply Plan
@@ -186,8 +186,8 @@ export function TodayTimetable({
                 key={`${slot.startHour}-${index}`}
                 ref={isCurrentTimeSlot ? currentTimeRef : undefined}
                 className={cn(
-                  "flex gap-3 border-b border-border/30 group relative",
-                  slot.isPast && "opacity-50"
+                  "flex gap-3 border-b border-border/30 group relative transition-all duration-300",
+                  slot.isPast && "opacity-40 bg-muted/10"
                 )}
                 style={{ 
                   minHeight: slot.isFreeGroup 
@@ -197,14 +197,14 @@ export function TodayTimetable({
                       : '48px'
                 }}
               >
-                {/* Current time indicator line */}
+                {/* Current time indicator line - enhanced visibility */}
                 {isCurrentTimeSlot && (
                   <div 
                     className="absolute left-0 right-0 z-10 flex items-center pointer-events-none"
                     style={{ top: `${currentMinutePercent}%` }}
                   >
-                    <div className="w-2 h-2 rounded-full bg-orange animate-pulse" />
-                    <div className="flex-1 h-0.5 bg-orange/60" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-primary shadow-glow animate-pulse" />
+                    <div className="flex-1 h-0.5 bg-primary/70 shadow-sm" />
                   </div>
                 )}
 
@@ -281,11 +281,11 @@ export function TodayTimetable({
         </div>
       </div>
 
-      {/* Current time indicator badge */}
+      {/* Current time indicator badge - enhanced */}
       {currentHour >= 6 && currentHour <= 22 && (
-        <div className="mt-2 flex items-center gap-2 text-xs bg-orange/10 text-orange px-3 py-1.5 rounded-full w-fit">
-          <div className="w-2 h-2 rounded-full bg-orange animate-pulse" />
-          <span className="font-medium">Now: {formatHour(currentHour)}</span>
+        <div className="mt-3 flex items-center gap-2 text-xs bg-primary/15 text-primary px-4 py-2 rounded-full w-fit shadow-soft border border-primary/20">
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-glow" />
+          <span className="font-semibold">Now: {formatHour(currentHour)}</span>
         </div>
       )}
     </div>
