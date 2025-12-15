@@ -7,10 +7,11 @@ interface BentoCardProps {
   colorVariant?: 'default' | 'peach' | 'lavender' | 'blue' | 'yellow' | 'pink' | 'green' | 'cyan';
   delay?: number;
   hover?: boolean;
+  elevated?: boolean;
 }
 
 const colorClasses = {
-  default: 'bg-card text-card-foreground',
+  default: 'bg-surface-1 text-card-foreground',
   peach: 'bg-peach text-peach-foreground',
   lavender: 'bg-lavender text-lavender-foreground',
   blue: 'bg-soft-blue text-soft-blue-foreground',
@@ -25,20 +26,26 @@ export function BentoCard({
   className, 
   colorVariant = 'default', 
   delay = 0,
-  hover = true 
+  hover = true,
+  elevated = false
 }: BentoCardProps) {
   return (
     <div
       className={cn(
-        'rounded-2xl p-6 shadow-soft bento-fade-in',
+        'rounded-2xl p-6 bento-fade-in relative overflow-hidden',
         'border border-border/30',
+        elevated ? 'shadow-elevated' : 'shadow-soft',
         hover && 'card-hover',
         colorClasses[colorVariant],
         className
       )}
       style={{ animationDelay: `${delay * 80}ms` }}
     >
-      {children}
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-foreground/[0.01] pointer-events-none" />
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 }
