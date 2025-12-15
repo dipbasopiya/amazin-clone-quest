@@ -30,16 +30,19 @@ const iconBgClasses = {
   cyan: 'bg-soft-cyan-foreground/15',
 };
 
-export function AnalyticsStatCard({ title, value, subtitle, icon: Icon, color, delay = 0 }: AnalyticsStatCardProps) {
+export function AnalyticsStatCard({ title, value, subtitle, icon: Icon, color, delay = 0, emphasized = false }: AnalyticsStatCardProps & { emphasized?: boolean }) {
   return (
     <div 
       className={cn(
-        'rounded-2xl shadow-soft p-5 border border-border/20 card-hover bento-fade-in',
-        colorClasses[color]
+        'rounded-2xl shadow-soft p-5 border border-border/20 card-hover bento-fade-in relative overflow-hidden',
+        colorClasses[color],
+        emphasized && 'ring-2 ring-primary/20 ring-offset-2 ring-offset-surface-0 shadow-elevated'
       )}
       style={{ animationDelay: `${delay * 80}ms` }}
     >
-      <div className="flex items-start justify-between">
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+      <div className="relative flex items-start justify-between">
         <div>
           <p className="text-xs font-medium opacity-70 mb-1.5">{title}</p>
           <p className="text-2xl font-thin-numeric tracking-tight">{value}</p>

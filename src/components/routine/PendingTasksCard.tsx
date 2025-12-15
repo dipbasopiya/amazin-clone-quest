@@ -49,18 +49,21 @@ export function PendingTasksCard({
     return (
       <div className="h-full flex flex-col">
         <div className="flex items-center gap-2 mb-3">
-          <div className="p-2 rounded-xl bg-soft-green/50">
+          <div className="p-2 rounded-xl bg-soft-green/50 shadow-soft">
             <Check className="w-4 h-4 text-soft-green-foreground" />
           </div>
           <h3 className="font-semibold text-foreground text-sm">All Caught Up!</h3>
         </div>
-        <div className="flex-1 flex items-center justify-center bg-soft-green/10 rounded-xl">
+        <div className="flex-1 flex items-center justify-center bg-gradient-to-b from-soft-green/10 to-soft-green/20 rounded-xl border border-soft-green/20">
           <div className="text-center p-4">
-            <p className="text-sm text-muted-foreground mb-1">
+            <div className="w-10 h-10 rounded-full bg-soft-green/30 flex items-center justify-center mx-auto mb-3">
+              <Check className="w-5 h-5 text-soft-green-foreground" />
+            </div>
+            <p className="text-sm font-medium text-foreground mb-1">
               All tasks completed
             </p>
-            <p className="text-xs text-muted-foreground/70">
-              Great work today!
+            <p className="text-xs text-muted-foreground">
+              Great work today! Take a well-deserved break.
             </p>
           </div>
         </div>
