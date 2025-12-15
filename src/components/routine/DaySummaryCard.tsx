@@ -1,16 +1,19 @@
 import { useMemo } from 'react';
 import { RoutineBlock } from '@/types/routine';
-import { Clock, Calendar, Coffee, Target } from 'lucide-react';
+import { RoutineTask } from '@/hooks/useRoutineCompletion';
+import { Clock, Calendar, Coffee, Target, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface DaySummaryCardProps {
   blocks: RoutineBlock[];
+  routineTasks?: RoutineTask[];
   wakeHour?: number;
   sleepHour?: number;
 }
 
 export function DaySummaryCard({
   blocks,
+  routineTasks = [],
   wakeHour = 6,
   sleepHour = 22,
 }: DaySummaryCardProps) {
@@ -22,6 +25,8 @@ export function DaySummaryCard({
       .reduce((acc, block) => acc + block.duration, 0);
     const workHours = scheduledHours - breakHours;
     const freeHours = Math.max(0, totalAvailableHours - scheduledHours);
+    const completedTasks = routineTasks.filter(t => t.completed).length;
+    const totalTasks = routineTasks.length;
     
     return {
       totalAvailableHours,
@@ -29,9 +34,11 @@ export function DaySummaryCard({
       workHours,
       breakHours,
       freeHours,
+      completedTasks,
+      totalTasks,
       utilizationPercent: Math.round((scheduledHours / totalAvailableHours) * 100),
     };
-  }, [blocks, wakeHour, sleepHour]);
+  }, [blocks, routineTasks, wakeHour, sleepHour]);
 
   // Calculate ring parameters
   const ringSize = 80;

@@ -4,29 +4,39 @@ import { ReactNode } from 'react';
 interface BentoCardProps {
   children: ReactNode;
   className?: string;
-  colorVariant?: 'default' | 'peach' | 'lavender' | 'blue' | 'yellow' | 'pink' | 'green';
+  colorVariant?: 'default' | 'peach' | 'lavender' | 'blue' | 'yellow' | 'pink' | 'green' | 'cyan';
   delay?: number;
+  hover?: boolean;
 }
 
 const colorClasses = {
-  default: 'bg-card',
-  peach: 'bg-peach',
-  lavender: 'bg-lavender',
-  blue: 'bg-soft-blue',
-  yellow: 'bg-soft-yellow',
-  pink: 'bg-soft-pink',
-  green: 'bg-soft-green',
+  default: 'bg-card text-card-foreground',
+  peach: 'bg-peach text-peach-foreground',
+  lavender: 'bg-lavender text-lavender-foreground',
+  blue: 'bg-soft-blue text-soft-blue-foreground',
+  yellow: 'bg-soft-yellow text-soft-yellow-foreground',
+  pink: 'bg-soft-pink text-soft-pink-foreground',
+  green: 'bg-soft-green text-soft-green-foreground',
+  cyan: 'bg-soft-cyan text-soft-cyan-foreground',
 };
 
-export function BentoCard({ children, className, colorVariant = 'default', delay = 0 }: BentoCardProps) {
+export function BentoCard({ 
+  children, 
+  className, 
+  colorVariant = 'default', 
+  delay = 0,
+  hover = true 
+}: BentoCardProps) {
   return (
     <div
       className={cn(
-        'rounded-2xl p-6 shadow-soft card-hover bento-fade-in',
+        'rounded-2xl p-6 shadow-soft bento-fade-in',
+        'border border-border/30',
+        hover && 'card-hover',
         colorClasses[colorVariant],
         className
       )}
-      style={{ animationDelay: `${delay * 100}ms` }}
+      style={{ animationDelay: `${delay * 80}ms` }}
     >
       {children}
     </div>

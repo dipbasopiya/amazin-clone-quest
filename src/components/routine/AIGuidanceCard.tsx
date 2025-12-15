@@ -1,13 +1,13 @@
 import { useState, useMemo } from 'react';
 import { RoutineBlock } from '@/types/routine';
-import { Task } from '@/types/fluxion';
+import { RoutineTask } from '@/hooks/useRoutineCompletion';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, X, ChevronRight, AlertTriangle, Target, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AIGuidanceCardProps {
   blocks: RoutineBlock[];
-  tasks: Task[];
+  routineTasks?: RoutineTask[];
   onDismiss?: (suggestionId: string) => void;
   onApply?: (suggestionId: string) => void;
 }
@@ -22,7 +22,7 @@ interface Suggestion {
 
 export function AIGuidanceCard({
   blocks,
-  tasks,
+  routineTasks = [],
   onDismiss,
   onApply,
 }: AIGuidanceCardProps) {
@@ -37,33 +37,18 @@ export function AIGuidanceCard({
     const totalScheduledHours = blocks.reduce((acc, b) => acc + b.duration, 0);
     const availableHours = 22 - Math.max(6, currentHour);
     const remainingFreeHours = Math.max(0, availableHours - totalScheduledHours);
-    const pendingTasks = tasks.filter(t => !t.completed && t.deadline);
-    const overdueTasks = pendingTasks.filter(t => new Date(t.deadline!) < now);
-    const urgentTasks = pendingTasks.filter(t => {
-      const deadline = new Date(t.deadline!);
-      const hoursUntilDue = (deadline.getTime() - now.getTime()) / (1000 * 60 * 60);
-      return hoursUntilDue > 0 && hoursUntilDue <= 24;
-    });
+    const incompleteTasks = routineTasks.filter(t => !t.completed);
+    const completedTasks = routineTasks.filter(t => t.completed);
 
-    // Priority 1: Overdue tasks (highest priority)
-    if (overdueTasks.length > 0) {
+    // Priority 1: Incomplete tasks that are past their scheduled time
+    const pastIncompleteTasks = incompleteTasks.filter(t => t.startHour < currentHour);
+    if (pastIncompleteTasks.length > 0) {
       result.push({
-        id: 'overdue-tasks',
+        id: 'missed-tasks',
         type: 'warning',
         icon: AlertTriangle,
-        message: `${overdueTasks.length} overdue task${overdueTasks.length > 1 ? 's' : ''} need immediate attention. You have ${remainingFreeHours}h free to work on them.`,
+        message: `${pastIncompleteTasks.length} task${pastIncompleteTasks.length > 1 ? 's' : ''} missed their scheduled time. Complete them now or reschedule.`,
         action: 'View Tasks',
-      });
-    }
-
-    // Priority 2: Urgent tasks due today
-    if (urgentTasks.length > 0 && overdueTasks.length === 0) {
-      result.push({
-        id: 'urgent-tasks',
-        type: 'warning',
-        icon: AlertTriangle,
-        message: `${urgentTasks.length} task${urgentTasks.length > 1 ? 's' : ''} due in the next 24h. Consider scheduling them in your ${remainingFreeHours}h of free time.`,
-        action: 'Schedule Now',
       });
     }
 
@@ -132,7 +117,7 @@ export function AIGuidanceCard({
     }
 
     // Positive reinforcement
-    if (blocks.length >= 3 && totalScheduledHours <= availableHours && overdueTasks.length === 0) {
+    if (blocks.length >= 3 && totalScheduledHours <= availableHours && pastIncompleteTasks.length === 0) {
       result.push({
         id: 'good-progress',
         type: 'encouragement',
@@ -142,7 +127,7 @@ export function AIGuidanceCard({
     }
 
     return result.filter(s => !dismissedIds.has(s.id)).slice(0, 2); // Limit to 2 suggestions
-  }, [blocks, tasks, dismissedIds]);
+  }, [blocks, routineTasks, dismissedIds]);
 
   const handleDismiss = (id: string) => {
     setDismissedIds(prev => new Set([...prev, id]));

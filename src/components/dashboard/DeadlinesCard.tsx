@@ -1,19 +1,18 @@
 import { BentoCard } from './BentoCard';
 import { Task, CATEGORY_COLORS } from '@/types/fluxion';
-import { Calendar, AlertCircle } from 'lucide-react';
+import { Calendar, AlertCircle, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface DeadlinesCardProps {
   deadlines: Task[];
   delay?: number;
-  fitToScreen?: boolean;
 }
 
-export function DeadlinesCard({ deadlines, delay = 0, fitToScreen = false }: DeadlinesCardProps) {
+export function DeadlinesCard({ deadlines, delay = 0 }: DeadlinesCardProps) {
   const getUrgencyColor = (deadline: string) => {
     const daysUntil = Math.ceil((new Date(deadline).getTime() - Date.now()) / 86400000);
     if (daysUntil <= 1) return 'text-destructive';
-    if (daysUntil <= 3) return 'text-orange-500';
+    if (daysUntil <= 3) return 'text-orange';
     return 'text-muted-foreground';
   };
 
@@ -27,23 +26,28 @@ export function DeadlinesCard({ deadlines, delay = 0, fitToScreen = false }: Dea
   };
 
   return (
-    <BentoCard className={cn(fitToScreen && "flex flex-col overflow-hidden")} colorVariant="yellow" delay={delay}>
-      <div className="flex items-center gap-2 mb-4">
-        <Calendar className="w-5 h-5 text-soft-yellow-foreground/70" />
-        <h3 className="text-sm font-medium text-soft-yellow-foreground">Upcoming Deadlines</h3>
+    <BentoCard colorVariant="yellow" delay={delay}>
+      <div className="flex items-center gap-2.5 mb-4">
+        <div className="p-2 rounded-xl bg-soft-yellow-foreground/10">
+          <Calendar className="w-4 h-4 text-soft-yellow-foreground" />
+        </div>
+        <h3 className="text-sm font-medium text-soft-yellow-foreground">Upcoming Tasks</h3>
       </div>
 
       {deadlines.length === 0 ? (
-        <p className="text-sm text-soft-yellow-foreground/60 text-center py-4">
-          No upcoming deadlines
-        </p>
+        <div className="flex flex-col items-center justify-center py-6 text-center bg-soft-yellow-foreground/5 rounded-xl">
+          <Clock className="w-8 h-8 text-soft-yellow-foreground/40 mb-2" />
+          <p className="text-sm text-soft-yellow-foreground/70">
+            No upcoming tasks
+          </p>
+        </div>
       ) : (
-        <div className={cn("space-y-3", fitToScreen && "flex-1 min-h-0 overflow-y-auto")}>
+        <div className="space-y-3">
           {deadlines.map((task) => (
-            <div key={task.id} className="flex items-center gap-3">
+            <div key={task.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-soft-yellow-foreground/5 transition-colors duration-300">
               <div
                 className={cn(
-                  'w-2 h-2 rounded-full',
+                  'w-2.5 h-2.5 rounded-full',
                   CATEGORY_COLORS[task.category].bg
                 )}
               />
@@ -52,11 +56,11 @@ export function DeadlinesCard({ deadlines, delay = 0, fitToScreen = false }: Dea
                   {task.title}
                 </p>
               </div>
-              <span className={cn('text-xs font-medium flex items-center gap-1', getUrgencyColor(task.deadline!))}>
-                {Math.ceil((new Date(task.deadline!).getTime() - Date.now()) / 86400000) <= 1 && (
+              <span className={cn('text-xs font-medium flex items-center gap-1', task.deadline ? getUrgencyColor(task.deadline) : 'text-muted-foreground')}>
+                {task.deadline && Math.ceil((new Date(task.deadline).getTime() - Date.now()) / 86400000) <= 1 && (
                   <AlertCircle className="w-3 h-3" />
                 )}
-                {formatDeadline(task.deadline!)}
+                {task.deadline ? formatDeadline(task.deadline) : 'No deadline'}
               </span>
             </div>
           ))}

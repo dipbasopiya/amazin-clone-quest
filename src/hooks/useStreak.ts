@@ -1,12 +1,7 @@
 import { useMemo } from 'react';
 import { Task, FocusSession } from '@/types/fluxion';
-import { CompletionRecord } from './useRoutineCompletion';
 
-export function useStreak(
-  tasks: Task[], 
-  sessions: FocusSession[],
-  routineCompletions: CompletionRecord[] = []
-) {
+export function useStreak(tasks: Task[], sessions: FocusSession[]) {
   const streak = useMemo(() => {
     const productiveDays = new Set<string>();
     
@@ -21,11 +16,6 @@ export function useStreak(
       if (session.duration >= 300) { // At least 5 minutes
         productiveDays.add(session.date);
       }
-    });
-
-    // Include routine block completions
-    routineCompletions.forEach((completion) => {
-      productiveDays.add(completion.date);
     });
 
     const sortedDays = Array.from(productiveDays).sort().reverse();
@@ -53,7 +43,7 @@ export function useStreak(
     }
 
     return currentStreak;
-  }, [tasks, sessions, routineCompletions]);
+  }, [tasks, sessions]);
 
   return streak;
 }

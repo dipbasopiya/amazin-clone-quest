@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { Task, FocusSession, TaskCategory } from '@/types/fluxion';
-import { CompletionRecord } from './useRoutineCompletion';
+import { FocusSession, TaskCategory } from '@/types/fluxion';
+import { RoutineTaskCompletion } from './useRoutineCompletion';
+import { RoutineBlock } from '@/types/routine';
 
 export interface DailyData {
   date: string;
   label: string;
   focusMinutes: number;
   tasksCompleted: number;
-  routineCompleted: number;
 }
 
 export interface CategoryData {
@@ -18,9 +18,9 @@ export interface CategoryData {
 }
 
 export function useAnalytics(
-  tasks: Task[], 
-  sessions: FocusSession[],
-  routineCompletions: CompletionRecord[] = []
+  blocks: RoutineBlock[],
+  completions: RoutineTaskCompletion[],
+  sessions: FocusSession[]
 ) {
   const last7Days = useMemo(() => {
     const days: DailyData[] = [];
@@ -34,24 +34,15 @@ export function useAnalytics(
         .filter((s) => s.date === dateStr)
         .reduce((acc, s) => acc + s.duration / 60, 0);
       
-      const tasksCompleted = tasks.filter((t) => {
-        if (!t.completed) return false;
-        const taskDate = new Date(t.createdAt).toISOString().split('T')[0];
-        return taskDate === dateStr;
-      }).length;
+      // Count routine completions for this date
+      const tasksCompleted = completions.filter(
+        (c) => c.date === dateStr && c.completed
+      ).length;
 
-      const routineCompleted = routineCompletions.filter((c) => c.date === dateStr).length;
-
-      days.push({ 
-        date: dateStr, 
-        label, 
-        focusMinutes: Math.round(focusMinutes), 
-        tasksCompleted,
-        routineCompleted,
-      });
+      days.push({ date: dateStr, label, focusMinutes: Math.round(focusMinutes), tasksCompleted });
     }
     return days;
-  }, [tasks, sessions, routineCompletions]);
+  }, [completions, sessions]);
 
   const last30Days = useMemo(() => {
     const days: DailyData[] = [];
@@ -65,24 +56,15 @@ export function useAnalytics(
         .filter((s) => s.date === dateStr)
         .reduce((acc, s) => acc + s.duration / 60, 0);
       
-      const tasksCompleted = tasks.filter((t) => {
-        if (!t.completed) return false;
-        const taskDate = new Date(t.createdAt).toISOString().split('T')[0];
-        return taskDate === dateStr;
-      }).length;
+      // Count routine completions for this date
+      const tasksCompleted = completions.filter(
+        (c) => c.date === dateStr && c.completed
+      ).length;
 
-      const routineCompleted = routineCompletions.filter((c) => c.date === dateStr).length;
-
-      days.push({ 
-        date: dateStr, 
-        label, 
-        focusMinutes: Math.round(focusMinutes), 
-        tasksCompleted,
-        routineCompleted,
-      });
+      days.push({ date: dateStr, label, focusMinutes: Math.round(focusMinutes), tasksCompleted });
     }
     return days;
-  }, [tasks, sessions, routineCompletions]);
+  }, [completions, sessions]);
 
   const categoryDistribution = useMemo(() => {
     const colors: Record<TaskCategory, string> = {
@@ -105,6 +87,7 @@ export function useAnalytics(
       dsa: 0, coding: 0, project: 0, academic: 0, personal: 0,
     };
 
+    // Calculate hours from focus sessions
     sessions.forEach((s) => {
       totals[s.category] += s.duration / 3600; // hours
     });
@@ -121,34 +104,29 @@ export function useAnalytics(
 
   const totalStats = useMemo(() => {
     const totalFocusHours = sessions.reduce((acc, s) => acc + s.duration / 3600, 0);
-    const totalTasksCompleted = tasks.filter((t) => t.completed).length;
-    const totalRoutineCompleted = routineCompletions.length;
-    const combinedTotal = totalTasksCompleted + totalRoutineCompleted;
-    
+    const totalTasksCompleted = completions.filter((c) => c.completed).length;
     const avgDailyFocus = last7Days.reduce((acc, d) => acc + d.focusMinutes, 0) / 7;
-    const avgDailyTasks = last7Days.reduce((acc, d) => acc + d.tasksCompleted + d.routineCompleted, 0) / 7;
+    const avgDailyTasks = last7Days.reduce((acc, d) => acc + d.tasksCompleted, 0) / 7;
     
+    // Count productive days (days with at least one completion)
     const productiveDays = new Set<string>();
-    tasks.forEach((t) => {
-      if (t.completed) {
-        productiveDays.add(new Date(t.createdAt).toISOString().split('T')[0]);
+    completions.forEach((c) => {
+      if (c.completed) {
+        productiveDays.add(c.date);
       }
     });
     sessions.forEach((s) => {
       if (s.duration >= 300) productiveDays.add(s.date);
     });
-    routineCompletions.forEach((c) => {
-      productiveDays.add(c.date);
-    });
 
     return {
       totalFocusHours: Math.round(totalFocusHours * 10) / 10,
-      totalTasksCompleted: combinedTotal,
+      totalTasksCompleted,
       avgDailyFocus: Math.round(avgDailyFocus),
       avgDailyTasks: Math.round(avgDailyTasks * 10) / 10,
       productiveDays: productiveDays.size,
     };
-  }, [tasks, sessions, routineCompletions, last7Days]);
+  }, [completions, sessions, last7Days]);
 
   return {
     last7Days,

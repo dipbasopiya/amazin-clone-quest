@@ -8,7 +8,6 @@ import { useSettings } from '@/hooks/useSettings';
 import { Button } from '@/components/ui/button';
 import { RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
 
 export default function Settings() {
   const {
@@ -36,7 +35,7 @@ export default function Settings() {
 
   return (
     <MainLayout>
-      <div className={cn("mb-8 flex items-center justify-between", settings.fitToScreen && "mb-4 flex-shrink-0")}>
+      <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-display text-foreground mb-1">Settings</h1>
           <p className="text-muted-foreground">Customize your experience</p>
@@ -47,7 +46,7 @@ export default function Settings() {
         </Button>
       </div>
 
-      <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-6", settings.fitToScreen && "flex-1 min-h-0 overflow-auto")}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-6">
           <ProfileSettings profile={settings.profile} onUpdate={handleProfileSave} />
           <FocusGoalSettings focusGoal={settings.dailyFocusGoal} onUpdate={updateFocusGoal} />

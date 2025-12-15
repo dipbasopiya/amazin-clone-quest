@@ -10,7 +10,7 @@ export function FocusChart({ data, type }: FocusChartProps) {
   const displayData = type === 'daily' ? data : data;
 
   return (
-    <div className="bg-card rounded-2xl shadow-soft p-6">
+    <div className="bg-card rounded-2xl shadow-soft p-6 border border-border/30 bento-fade-in chart-animate">
       <h3 className="text-sm font-medium text-foreground mb-1">Focus Time</h3>
       <p className="text-xs text-muted-foreground mb-6">
         {type === 'daily' ? 'Last 7 days' : 'Last 30 days'}
@@ -19,33 +19,34 @@ export function FocusChart({ data, type }: FocusChartProps) {
       <div className="h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={displayData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(35, 20%, 85%)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} vertical={false} />
             <XAxis 
               dataKey="label" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 11, fill: 'hsl(25, 10%, 45%)' }}
+              tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 11, fill: 'hsl(25, 10%, 45%)' }}
+              tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
               tickFormatter={(value) => `${value}m`}
             />
             <Tooltip
               contentStyle={{
-                background: 'hsl(35, 40%, 98%)',
-                border: '1px solid hsl(35, 20%, 85%)',
+                background: 'hsl(var(--card))',
+                border: '1px solid hsl(var(--border))',
                 borderRadius: '12px',
                 fontSize: '12px',
+                boxShadow: 'var(--shadow-soft)',
               }}
               formatter={(value: number) => [`${value} min`, 'Focus Time']}
             />
             <Bar 
               dataKey="focusMinutes" 
-              fill="hsl(280, 50%, 75%)" 
-              radius={[6, 6, 0, 0]}
-              maxBarSize={40}
+              fill="hsl(var(--lavender-foreground))" 
+              radius={[8, 8, 0, 0]}
+              maxBarSize={36}
             />
           </BarChart>
         </ResponsiveContainer>
