@@ -9,69 +9,89 @@
     /* Premium warm neutral palette */
     --background: 38 25% 96%;
     --foreground: 25 25% 12%;
-    --card: 40 35% 99%;
+    
+    /* Surface levels for depth hierarchy */
+    --surface-0: 38 25% 96%; /* App background */
+    --surface-1: 35 30% 94%; /* Cards - warm cream */
+    --surface-2: 32 35% 91%; /* Featured/active cards */
+    
+    --card: 35 30% 94%;
     --card-foreground: 25 25% 12%;
-    --popover: 40 35% 99%;
+    --popover: 0 0% 100%;
     --popover-foreground: 25 25% 12%;
-    --primary: 25 75% 50%;
+    
+    /* Primary - Sophisticated sage/teal */
+    --primary: 168 45% 42%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 280 25% 94%;
+    
+    --secondary: 280 25% 92%;
     --secondary-foreground: 280 30% 25%;
-    --muted: 35 18% 92%;
+    --muted: 35 20% 90%;
     --muted-foreground: 25 12% 48%;
-    --accent: 200 35% 92%;
+    --accent: 200 35% 90%;
     --accent-foreground: 200 40% 25%;
     --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 35 15% 88%;
-    --input: 35 15% 88%;
-    --ring: 25 75% 50%;
+    --border: 35 18% 85%;
+    --input: 0 0% 100%;
+    --ring: 168 45% 42%;
     --radius: 1rem;
     
     /* Solid pastel colors - cheerful & premium */
-    --peach: 24 100% 90%;
-    --peach-foreground: 24 80% 25%;
-    --lavender: 260 60% 88%;
-    --lavender-foreground: 260 50% 28%;
-    --soft-blue: 210 85% 88%;
-    --soft-blue-foreground: 210 70% 25%;
-    --soft-yellow: 45 95% 85%;
-    --soft-yellow-foreground: 45 80% 22%;
-    --soft-pink: 340 70% 90%;
-    --soft-pink-foreground: 340 60% 28%;
-    --soft-green: 155 55% 85%;
-    --soft-green-foreground: 155 55% 20%;
-    --soft-cyan: 185 70% 85%;
-    --soft-cyan-foreground: 185 65% 22%;
+    --peach: 24 85% 88%;
+    --peach-foreground: 24 80% 28%;
+    --lavender: 260 55% 86%;
+    --lavender-foreground: 260 50% 30%;
+    --soft-blue: 210 75% 86%;
+    --soft-blue-foreground: 210 70% 28%;
+    --soft-yellow: 45 85% 83%;
+    --soft-yellow-foreground: 45 80% 25%;
+    --soft-pink: 340 65% 88%;
+    --soft-pink-foreground: 340 60% 30%;
+    --soft-green: 155 50% 83%;
+    --soft-green-foreground: 155 55% 22%;
+    --soft-cyan: 185 60% 83%;
+    --soft-cyan-foreground: 185 65% 24%;
     
     /* Accent colors */
-    --orange: 24 95% 55%;
-    --aqua: 185 65% 50%;
+    --orange: 24 85% 52%;
+    --aqua: 185 60% 45%;
     
-    /* Premium shadows */
-    --shadow-soft: 0 4px 24px -6px hsl(25 30% 20% / 0.06);
-    --shadow-hover: 0 12px 40px -8px hsl(25 30% 20% / 0.1);
-    --shadow-glow: 0 0 40px hsl(25 75% 50% / 0.15);
+    /* Premium shadows - layered depth */
+    --shadow-soft: 0 2px 8px -2px hsl(25 30% 20% / 0.04), 0 8px 24px -4px hsl(25 30% 20% / 0.06);
+    --shadow-hover: 0 4px 12px -2px hsl(25 30% 20% / 0.06), 0 16px 40px -8px hsl(25 30% 20% / 0.1);
+    --shadow-elevated: 0 6px 16px -4px hsl(25 30% 20% / 0.08), 0 20px 48px -12px hsl(25 30% 20% / 0.12);
+    --shadow-glow: 0 0 40px hsl(168 45% 42% / 0.15);
+    --shadow-inset: inset 0 2px 4px hsl(25 30% 20% / 0.04);
     
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 35 25% 95%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent: 35 20% 92%;
     --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border: 35 18% 88%;
+    --sidebar-ring: 168 45% 42%;
   }
 
   .dark {
     --background: 25 18% 9%;
     --foreground: 38 20% 96%;
-    --card: 25 18% 12%;
+    
+    /* Surface levels for dark mode */
+    --surface-0: 25 18% 9%;
+    --surface-1: 25 16% 13%;
+    --surface-2: 25 14% 17%;
+    
+    --card: 25 16% 13%;
     --card-foreground: 38 20% 96%;
     --popover: 25 18% 12%;
     --popover-foreground: 38 20% 96%;
-    --primary: 25 75% 55%;
+    
+    /* Primary - Sage/teal for dark */
+    --primary: 168 40% 50%;
     --primary-foreground: 0 0% 100%;
+    
     --secondary: 270 18% 18%;
     --secondary-foreground: 270 30% 88%;
     --muted: 25 12% 18%;
@@ -80,40 +100,42 @@
     --accent-foreground: 200 40% 88%;
     --destructive: 0 55% 48%;
     --destructive-foreground: 0 0% 100%;
-    --border: 25 12% 18%;
-    --input: 25 12% 18%;
-    --ring: 25 75% 55%;
+    --border: 25 12% 20%;
+    --input: 25 14% 16%;
+    --ring: 168 40% 50%;
     
-    --peach: 24 45% 22%;
-    --peach-foreground: 24 80% 88%;
-    --lavender: 260 35% 22%;
-    --lavender-foreground: 260 60% 88%;
-    --soft-blue: 210 40% 20%;
-    --soft-blue-foreground: 210 75% 88%;
-    --soft-yellow: 45 45% 18%;
-    --soft-yellow-foreground: 45 85% 88%;
-    --soft-pink: 340 35% 20%;
-    --soft-pink-foreground: 340 65% 88%;
-    --soft-green: 155 35% 18%;
-    --soft-green-foreground: 155 55% 88%;
-    --soft-cyan: 185 40% 18%;
-    --soft-cyan-foreground: 185 65% 88%;
+    --peach: 24 35% 22%;
+    --peach-foreground: 24 75% 85%;
+    --lavender: 260 30% 22%;
+    --lavender-foreground: 260 55% 85%;
+    --soft-blue: 210 35% 20%;
+    --soft-blue-foreground: 210 70% 85%;
+    --soft-yellow: 45 40% 18%;
+    --soft-yellow-foreground: 45 80% 85%;
+    --soft-pink: 340 30% 20%;
+    --soft-pink-foreground: 340 60% 85%;
+    --soft-green: 155 30% 18%;
+    --soft-green-foreground: 155 50% 85%;
+    --soft-cyan: 185 35% 18%;
+    --soft-cyan-foreground: 185 60% 85%;
     
-    --orange: 24 90% 55%;
-    --aqua: 185 60% 55%;
+    --orange: 24 80% 52%;
+    --aqua: 185 55% 50%;
     
-    --shadow-soft: 0 4px 24px -6px hsl(0 0% 0% / 0.25);
-    --shadow-hover: 0 12px 40px -8px hsl(0 0% 0% / 0.35);
-    --shadow-glow: 0 0 40px hsl(25 75% 55% / 0.2);
+    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.2), 0 8px 24px -4px hsl(0 0% 0% / 0.25);
+    --shadow-hover: 0 4px 12px -2px hsl(0 0% 0% / 0.25), 0 16px 40px -8px hsl(0 0% 0% / 0.35);
+    --shadow-elevated: 0 6px 16px -4px hsl(0 0% 0% / 0.3), 0 20px 48px -12px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 40px hsl(168 40% 50% / 0.2);
+    --shadow-inset: inset 0 2px 4px hsl(0 0% 0% / 0.15);
     
-    --sidebar-background: 240 5.9% 10%;
+    --sidebar-background: 25 16% 11%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 168 40% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 25 14% 16%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border: 25 12% 18%;
+    --sidebar-ring: 168 40% 50%;
   }
 }
 
@@ -136,6 +158,19 @@
     letter-spacing: -0.025em; 
   }
   
+  /* Surface utilities */
+  .surface-0 {
+    background-color: hsl(var(--surface-0));
+  }
+  .surface-1 {
+    background-color: hsl(var(--surface-1));
+    box-shadow: var(--shadow-soft);
+  }
+  .surface-2 {
+    background-color: hsl(var(--surface-2));
+    box-shadow: var(--shadow-elevated);
+  }
+  
   /* Premium card effects */
   .card-hover { 
     @apply transition-all duration-400 ease-out; 
@@ -143,6 +178,11 @@
   .card-hover:hover { 
     transform: translateY(-3px); 
     box-shadow: var(--shadow-hover); 
+  }
+  
+  /* Card with inner depth */
+  .card-depth {
+    box-shadow: var(--shadow-soft), var(--shadow-inset);
   }
   
   /* Bento card animation */
@@ -229,5 +269,10 @@
   
   .gradient-warm {
     background: linear-gradient(135deg, hsl(var(--peach)), hsl(var(--soft-yellow)));
+  }
+  
+  /* Subtle gradient overlays for depth */
+  .gradient-depth {
+    background: linear-gradient(180deg, transparent 0%, hsl(var(--foreground) / 0.02) 100%);
   }
 }

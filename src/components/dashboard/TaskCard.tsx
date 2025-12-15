@@ -38,7 +38,7 @@ export function TaskCard({ routineTasks, completedCount, onToggle }: TaskCardPro
   };
 
   return (
-    <BentoCard className="col-span-1 md:col-span-2 row-span-2" colorVariant="default" delay={0}>
+    <BentoCard className="col-span-1 md:col-span-2 row-span-2" colorVariant="cyan" delay={0} elevated>
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-primary/10">

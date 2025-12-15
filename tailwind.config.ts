@@ -16,6 +16,11 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        surface: {
+          "0": "hsl(var(--surface-0))",
+          "1": "hsl(var(--surface-1))",
+          "2": "hsl(var(--surface-2))",
+        },
         primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
         secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
         destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" },
@@ -54,7 +59,9 @@ export default {
       boxShadow: { 
         soft: "var(--shadow-soft)", 
         hover: "var(--shadow-hover)",
-        glow: "var(--shadow-glow)"
+        elevated: "var(--shadow-elevated)",
+        glow: "var(--shadow-glow)",
+        inset: "var(--shadow-inset)"
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
