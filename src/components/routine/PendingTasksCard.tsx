@@ -49,15 +49,15 @@ export function PendingTasksCard({
     return (
       <div className="h-full flex flex-col">
         <div className="flex items-center gap-2 mb-3">
-          <div className="p-2 rounded-xl bg-soft-green/50 shadow-soft">
-            <Check className="w-4 h-4 text-soft-green-foreground" />
+          <div className="p-2 rounded-xl bg-background/50 shadow-soft">
+            <Check className="w-4 h-4 text-foreground" />
           </div>
           <h3 className="font-semibold text-foreground text-sm">All Caught Up!</h3>
         </div>
-        <div className="flex-1 flex items-center justify-center bg-gradient-to-b from-soft-green/10 to-soft-green/20 rounded-xl border border-soft-green/20">
+        <div className="flex-1 flex items-center justify-center bg-background/30 rounded-xl border border-background/50">
           <div className="text-center p-4">
-            <div className="w-10 h-10 rounded-full bg-soft-green/30 flex items-center justify-center mx-auto mb-3">
-              <Check className="w-5 h-5 text-soft-green-foreground" />
+            <div className="w-10 h-10 rounded-full bg-background/50 flex items-center justify-center mx-auto mb-3 shadow-soft">
+              <Check className="w-5 h-5 text-foreground" />
             </div>
             <p className="text-sm font-medium text-foreground mb-1">
               All tasks completed
@@ -79,12 +79,12 @@ export function PendingTasksCard({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div className={cn(
-            "p-2 rounded-xl",
-            missedCount > 0 ? "bg-destructive/20 animate-pulse" : "bg-soft-yellow/50"
+            "p-2 rounded-xl shadow-soft",
+            missedCount > 0 ? "bg-destructive/20 animate-pulse" : "bg-background/50"
           )}>
             <AlertCircle className={cn(
               "w-4 h-4",
-              missedCount > 0 ? "text-destructive" : "text-soft-yellow-foreground"
+              missedCount > 0 ? "text-destructive" : "text-foreground"
             )} />
           </div>
           <div>
@@ -149,7 +149,7 @@ export function PendingTasksCard({
                   variant="ghost"
                   size="sm"
                   onClick={() => onMarkComplete(task.blockId)}
-                  className="h-7 px-2 text-xs gap-1 hover:bg-soft-green/50"
+                  className="h-7 px-2 text-xs gap-1 hover:bg-background/50"
                 >
                   <Check className="w-3 h-3" />
                   Mark Complete

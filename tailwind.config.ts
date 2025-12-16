@@ -8,7 +8,8 @@ export default {
     container: { center: true, padding: "2rem", screens: { "2xl": "1400px" } },
     extend: {
       fontFamily: { 
-        sans: ["'Plus Jakarta Sans'", "'SF Pro Display'", "system-ui", "-apple-system", "sans-serif"] 
+        sans: ["'Plus Jakarta Sans'", "'SF Pro Display'", "system-ui", "-apple-system", "sans-serif"],
+        display: ["'Instrument Sans'", "'Plus Jakarta Sans'", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

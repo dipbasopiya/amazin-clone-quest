@@ -7,10 +7,10 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div className="min-h-screen w-full min-w-[100vw] bg-background">
+    <div className="min-h-screen w-full bg-background overflow-x-hidden">
       <TopNav />
       <main className="min-h-[calc(100vh-4rem)] w-full">
-        <div className="p-6 md:p-8 w-full max-w-none">
+        <div className="px-6 md:px-10 lg:px-16 py-6 md:py-8 w-full">
           {children}
         </div>
       </main>

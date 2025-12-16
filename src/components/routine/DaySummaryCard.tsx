@@ -51,8 +51,8 @@ export function DaySummaryCard({
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
-        <div className="p-2 rounded-xl bg-soft-blue/50">
-          <Calendar className="w-4 h-4 text-soft-blue-foreground" />
+        <div className="p-2 rounded-xl bg-background/50 shadow-soft">
+          <Calendar className="w-4 h-4 text-soft-cyan-foreground" />
         </div>
         <h3 className="font-semibold text-foreground text-sm">Day Summary</h3>
       </div>

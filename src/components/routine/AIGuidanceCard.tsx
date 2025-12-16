@@ -154,8 +154,8 @@ export function AIGuidanceCard({
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <div className="p-2 rounded-xl bg-lavender/50">
-          <Lightbulb className="w-5 h-5 text-lavender-foreground" />
+        <div className="p-2 rounded-xl bg-background/50 shadow-soft">
+          <Lightbulb className="w-5 h-5 text-soft-green-foreground" />
         </div>
         <h3 className="font-semibold text-foreground">AI Guidance</h3>
       </div>

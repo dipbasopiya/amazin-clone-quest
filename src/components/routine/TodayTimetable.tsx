@@ -141,9 +141,9 @@ export function TodayTimetable({
   return (
     <div className="h-full flex flex-col">
       {/* Header - Emphasized as primary card */}
-      <div className="flex items-center justify-between mb-4 pb-4 border-b border-border/30">
+      <div className="flex items-center justify-between mb-4 pb-4 border-b border-background/30">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-primary/15 shadow-soft">
+          <div className="p-2.5 rounded-xl bg-background/50 shadow-soft">
             <Sparkles className="w-5 h-5 text-primary" />
           </div>
           <div>
@@ -283,7 +283,7 @@ export function TodayTimetable({
 
       {/* Current time indicator badge - enhanced */}
       {currentHour >= 6 && currentHour <= 22 && (
-        <div className="mt-3 flex items-center gap-2 text-xs bg-primary/15 text-primary px-4 py-2 rounded-full w-fit shadow-soft border border-primary/20">
+        <div className="mt-3 flex items-center gap-2 text-xs bg-background/50 text-primary px-4 py-2 rounded-full w-fit shadow-soft border border-background/30">
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-glow" />
           <span className="font-semibold">Now: {formatHour(currentHour)}</span>
         </div>
