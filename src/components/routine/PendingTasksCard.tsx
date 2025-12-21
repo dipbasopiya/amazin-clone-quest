@@ -3,17 +3,21 @@ import { CATEGORY_COLORS } from '@/types/fluxion';
 import { ROUTINE_CATEGORY_COLORS } from '@/types/routine';
 import { RoutineTask } from '@/hooks/useRoutineCompletion';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, Check, Clock } from 'lucide-react';
+import { AlertCircle, Check, Clock, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface PendingTasksCardProps {
   routineTasks: RoutineTask[];
   onMarkComplete: (blockId: string) => void;
+  onStartTask?: (blockId: string) => void;
+  activeTaskId?: string;
 }
 
 export function PendingTasksCard({
   routineTasks,
   onMarkComplete,
+  onStartTask,
+  activeTaskId,
 }: PendingTasksCardProps) {
   const currentHour = new Date().getHours();
   
@@ -106,6 +110,7 @@ export function PendingTasksCard({
         {pendingTasks.map((task) => {
           const colors = getCategoryColors(task.category);
           const isMissed = isPastScheduledTime(task);
+          const isActive = activeTaskId === task.blockId;
           
           return (
             <div
@@ -113,16 +118,25 @@ export function PendingTasksCard({
               className={cn(
                 "p-3 rounded-xl border transition-all duration-200",
                 "hover:shadow-md",
-                isMissed 
-                  ? "bg-destructive/5 border-destructive/20" 
-                  : "bg-muted/30 border-border/50"
+                isActive 
+                  ? "bg-primary/10 border-primary/30 ring-2 ring-primary/20"
+                  : isMissed 
+                    ? "bg-destructive/5 border-destructive/20" 
+                    : "bg-muted/30 border-border/50"
               )}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm text-foreground truncate">
-                    {task.title}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-sm text-foreground truncate">
+                      {task.title}
+                    </p>
+                    {isActive && (
+                      <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-medium animate-pulse">
+                        Active
+                      </span>
+                    )}
+                  </div>
                   <div className="flex items-center gap-2 mt-1">
                     <span className={cn(
                       "px-2 py-0.5 rounded-full text-xs",
@@ -145,6 +159,17 @@ export function PendingTasksCard({
 
               {/* Actions */}
               <div className="flex items-center gap-1 mt-2">
+                {!isActive && onStartTask && (
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => onStartTask(task.blockId)}
+                    className="h-7 px-3 text-xs gap-1"
+                  >
+                    <Play className="w-3 h-3" />
+                    Start
+                  </Button>
+                )}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -152,7 +177,7 @@ export function PendingTasksCard({
                   className="h-7 px-2 text-xs gap-1 hover:bg-background/50"
                 >
                   <Check className="w-3 h-3" />
-                  Mark Complete
+                  {isActive ? 'Complete' : 'Mark Complete'}
                 </Button>
               </div>
             </div>

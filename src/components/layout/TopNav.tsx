@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSettings } from '@/hooks/useSettings';
 import { motion } from 'framer-motion';
+import { ActiveTaskPill } from './ActiveTaskPill';
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Home' },
@@ -40,41 +41,45 @@ export function TopNav() {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border/20"
+      className="sticky top-0 z-50 w-full bg-background/70 backdrop-blur-xl border-b border-border/10"
     >
-      <div className="w-full px-6 md:px-10 lg:px-16 h-16 flex items-center justify-between">
+      <div className="w-full max-w-[1600px] mx-auto px-6 md:px-10 lg:px-16 h-16 flex items-center justify-between">
         {/* Logo - Wordmark Style */}
-        <NavLink to="/" className="group flex items-center gap-2.5">
+        <NavLink to="/" className="group flex items-center gap-2.5 min-w-[120px]">
           <motion.div 
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.08, rotate: 3 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-primary/90 to-primary flex items-center justify-center"
+            className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-primary/90 to-primary/80 flex items-center justify-center shadow-soft"
           >
-            <span className="text-primary-foreground font-display font-semibold text-sm">F</span>
-            <div className="absolute inset-0 rounded-lg bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <span className="text-primary-foreground font-display font-bold text-base">F</span>
+            <div className="absolute inset-0 rounded-xl bg-primary/30 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.div>
-          <span className="font-display font-semibold text-lg tracking-[-0.02em] text-foreground/90 group-hover:text-foreground transition-colors duration-300">
+          <motion.span 
+            className="font-display font-semibold text-xl tracking-[-0.03em] text-foreground"
+            initial={{ opacity: 0.9 }}
+            whileHover={{ opacity: 1 }}
+          >
             Fluxion
-          </span>
+          </motion.span>
         </NavLink>
 
         {/* Navigation - Center with Animated Pill */}
-        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center p-1 rounded-xl bg-muted/40 border border-border/20">
+        <nav className="absolute left-1/2 -translate-x-1/2 flex items-center p-1.5 rounded-2xl bg-muted/30 backdrop-blur-sm border border-border/10">
           <div className="relative flex items-center">
             {/* Animated Background Pill */}
             {activeIndex !== -1 && (
               <motion.div
                 layoutId="nav-pill"
-                className="absolute inset-y-0 rounded-lg bg-background shadow-sm border border-border/30"
+                className="absolute inset-y-0.5 rounded-xl bg-background shadow-soft"
                 style={{
                   width: `${100 / navItems.length}%`,
                   left: `${(activeIndex * 100) / navItems.length}%`,
                 }}
                 transition={{
                   type: "spring",
-                  stiffness: 350,
-                  damping: 30,
+                  stiffness: 400,
+                  damping: 35,
                 }}
               />
             )}
@@ -86,21 +91,21 @@ export function TopNav() {
                 end={to === '/'}
                 className={({ isActive }) =>
                   cn(
-                    'relative z-10 flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium',
-                    'transition-colors duration-300',
+                    'relative z-10 flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-medium',
+                    'transition-all duration-300',
                     isActive
                       ? 'text-foreground'
-                      : 'text-muted-foreground/70 hover:text-foreground/80'
+                      : 'text-muted-foreground/60 hover:text-foreground/80'
                   )
                 }
               >
                 {({ isActive }) => (
                   <>
                     <Icon className={cn(
-                      'w-4 h-4 transition-colors duration-300',
-                      isActive ? 'text-primary' : 'text-current'
+                      'w-4 h-4 transition-all duration-300',
+                      isActive ? 'text-primary scale-110' : 'text-current'
                     )} />
-                    <span className="hidden sm:inline">{label}</span>
+                    <span className="hidden sm:inline tracking-[-0.01em]">{label}</span>
                   </>
                 )}
               </NavLink>
@@ -108,8 +113,10 @@ export function TopNav() {
           </div>
         </nav>
 
-        {/* Profile Dropdown - Right */}
-        <DropdownMenu>
+        {/* Active Task Pill + Profile */}
+        <div className="flex items-center gap-3">
+          <ActiveTaskPill />
+          <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <motion.button 
               whileHover={{ scale: 1.02 }}
@@ -163,6 +170,7 @@ export function TopNav() {
             </motion.div>
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
       </div>
     </motion.header>
   );

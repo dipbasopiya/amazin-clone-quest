@@ -8,6 +8,7 @@ import { BlockFormModal } from '@/components/routine/BlockFormModal';
 import { BentoCard } from '@/components/dashboard/BentoCard';
 import { useRoutine } from '@/hooks/useRoutine';
 import { useRoutineCompletion } from '@/hooks/useRoutineCompletion';
+import { useActiveTaskTimer } from '@/hooks/useActiveTaskTimer';
 import { RoutineBlock } from '@/types/routine';
 import { TaskCategory } from '@/types/fluxion';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ type RoutineCategory = TaskCategory | 'break';
 export default function Routine() {
   const { blocks, addBlock, updateBlock, deleteBlock, getBlocksForDay, hasConflict } = useRoutine();
   const { todayRoutineTasks, toggleRoutineTaskCompletion } = useRoutineCompletion(blocks);
+  const { activeTask, startTaskTimer, stopTaskTimer } = useActiveTaskTimer();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState<RoutineBlock | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -91,6 +93,31 @@ export default function Routine() {
     toggleRoutineTaskCompletion(blockId);
   };
 
+  // Helper to format time for display
+  const formatTaskTime = (hour: number, minute: number): string => {
+    const h = hour % 12 || 12;
+    const m = minute.toString().padStart(2, '0');
+    const period = hour < 12 ? 'AM' : 'PM';
+    return `${h}:${m} ${period}`;
+  };
+
+  const handleStartTask = (blockId: string) => {
+    const task = todayRoutineTasks.find(t => t.id === blockId);
+    if (task && !task.completed) {
+      // Duration is in hours, convert to minutes. Fallback to 30 min if missing
+      const durationMinutes = task.duration > 0 ? Math.round(task.duration * 60) : 30;
+      
+      startTaskTimer({
+        id: task.id,
+        title: task.title,
+        category: task.category === 'break' ? 'personal' : task.category,
+        durationMinutes,
+        scheduledTime: formatTaskTime(task.startHour, task.startMinute),
+      });
+      toast.success(`Started: ${task.title}`);
+    }
+  };
+
   const handleAISuggestionApply = (suggestionId: string) => {
     if (suggestionId === 'no-breaks') {
       const breakHour = Math.max(currentHour + 2, 12);
@@ -127,6 +154,8 @@ export default function Routine() {
               routineTasks={todayRoutineTasks}
               onBlockClick={handleBlockClick}
               onToggleTask={handleToggleRoutineTask}
+              onStartTask={handleStartTask}
+              activeTaskId={activeTask?.id}
               onGenerateAIPlan={handleGenerateAIPlan}
               onApplyPlan={handleApplyPlan}
               isGenerating={isGenerating}
@@ -142,7 +171,12 @@ export default function Routine() {
           </BentoCard>
 
           <BentoCard className="lg:col-span-2 min-h-[250px]" colorVariant="lavender" delay={3}>
-            <PendingTasksCard routineTasks={todayRoutineTasks} onMarkComplete={handleToggleRoutineTask} />
+            <PendingTasksCard 
+              routineTasks={todayRoutineTasks} 
+              onMarkComplete={handleToggleRoutineTask}
+              onStartTask={handleStartTask}
+              activeTaskId={activeTask?.id}
+            />
           </BentoCard>
 
           <BentoCard className="min-h-[100px]" colorVariant="peach" delay={4}>

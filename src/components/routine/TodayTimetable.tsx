@@ -10,6 +10,8 @@ interface TodayTimetableProps {
   routineTasks: RoutineTask[];
   onBlockClick: (block: RoutineBlock) => void;
   onToggleTask: (blockId: string) => void;
+  onStartTask?: (blockId: string) => void;
+  activeTaskId?: string;
   onGenerateAIPlan: () => void;
   onApplyPlan: () => void;
   isGenerating?: boolean;
@@ -36,6 +38,8 @@ export function TodayTimetable({
   routineTasks,
   onBlockClick,
   onToggleTask,
+  onStartTask,
+  activeTaskId,
   onGenerateAIPlan,
   onApplyPlan,
   isGenerating = false,
