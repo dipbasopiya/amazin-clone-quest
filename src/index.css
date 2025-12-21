@@ -219,72 +219,72 @@
     --sidebar-ring: 142 100% 50%;
   }
 
-  /* Default Theme - Colorful pastel pill-style cards */
+  /* Default Theme - Colorful pastel cards like Coolors */
   .theme-default {
-    /* Clean white/off-white background */
-    --background: 220 20% 97%;
-    --foreground: 220 25% 15%;
+    /* Clean white background */
+    --background: 0 0% 100%;
+    --foreground: 220 15% 25%;
     
     /* Surface levels */
-    --surface-0: 220 20% 97%;
+    --surface-0: 0 0% 100%;
     --surface-1: 0 0% 100%;
     --surface-2: 0 0% 100%;
     
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 15%;
+    --card-foreground: 220 15% 25%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 15%;
+    --popover-foreground: 220 15% 25%;
     
-    /* Primary - Vibrant blue like the calendar icon */
-    --primary: 215 90% 55%;
+    /* Primary - Vibrant blue */
+    --primary: 215 100% 50%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 220 15% 95%;
-    --secondary-foreground: 220 20% 30%;
-    --muted: 220 15% 94%;
-    --muted-foreground: 220 10% 50%;
-    --accent: 215 85% 93%;
-    --accent-foreground: 215 90% 40%;
-    --destructive: 0 75% 55%;
+    --secondary: 220 15% 96%;
+    --secondary-foreground: 220 15% 35%;
+    --muted: 220 10% 96%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 215 90% 95%;
+    --accent-foreground: 215 100% 45%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 15% 90%;
+    --border: 220 15% 92%;
     --input: 0 0% 100%;
-    --ring: 215 90% 55%;
+    --ring: 215 100% 50%;
     
-    /* Vibrant pastel colors matching the reference image */
-    --peach: 25 95% 92%;
-    --peach-foreground: 25 90% 45%;
-    --lavender: 270 70% 92%;
-    --lavender-foreground: 270 80% 50%;
-    --soft-blue: 215 85% 92%;
-    --soft-blue-foreground: 215 90% 50%;
-    --soft-yellow: 45 90% 88%;
-    --soft-yellow-foreground: 40 85% 40%;
-    --soft-pink: 350 85% 92%;
-    --soft-pink-foreground: 350 80% 50%;
-    --soft-green: 145 70% 90%;
-    --soft-green-foreground: 145 80% 35%;
-    --soft-cyan: 185 75% 90%;
-    --soft-cyan-foreground: 185 85% 40%;
+    /* Vibrant pastel backgrounds matching Coolors style */
+    --peach: 340 100% 95%;
+    --peach-foreground: 340 85% 45%;
+    --lavender: 280 100% 95%;
+    --lavender-foreground: 280 85% 50%;
+    --soft-blue: 200 100% 94%;
+    --soft-blue-foreground: 200 90% 45%;
+    --soft-yellow: 50 100% 92%;
+    --soft-yellow-foreground: 40 90% 35%;
+    --soft-pink: 340 100% 95%;
+    --soft-pink-foreground: 0 85% 55%;
+    --soft-green: 140 70% 92%;
+    --soft-green-foreground: 140 75% 32%;
+    --soft-cyan: 180 80% 92%;
+    --soft-cyan-foreground: 180 85% 35%;
     
-    --orange: 25 95% 55%;
-    --aqua: 185 80% 45%;
+    --orange: 25 100% 55%;
+    --aqua: 180 85% 45%;
     
-    /* Soft subtle shadows */
-    --shadow-soft: 0 2px 8px -2px hsl(220 30% 20% / 0.06), 0 4px 16px -4px hsl(220 30% 20% / 0.04);
-    --shadow-hover: 0 4px 16px -4px hsl(220 30% 20% / 0.1), 0 8px 24px -8px hsl(220 30% 20% / 0.06);
-    --shadow-elevated: 0 8px 24px -6px hsl(220 30% 20% / 0.12), 0 12px 32px -8px hsl(220 30% 20% / 0.08);
-    --shadow-glow: 0 0 30px hsl(215 90% 55% / 0.15);
-    --shadow-inset: inset 0 1px 2px hsl(220 20% 20% / 0.03);
+    /* Clean subtle shadows */
+    --shadow-soft: 0 1px 3px hsl(220 20% 20% / 0.04);
+    --shadow-hover: 0 4px 12px hsl(220 20% 20% / 0.08);
+    --shadow-elevated: 0 8px 24px hsl(220 20% 20% / 0.1);
+    --shadow-glow: 0 0 20px hsl(215 100% 50% / 0.15);
+    --shadow-inset: inset 0 1px 2px hsl(220 20% 20% / 0.02);
     
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 25% 20%;
-    --sidebar-primary: 215 90% 55%;
+    --sidebar-foreground: 220 15% 25%;
+    --sidebar-primary: 215 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 95%;
-    --sidebar-accent-foreground: 220 25% 20%;
+    --sidebar-accent: 220 15% 96%;
+    --sidebar-accent-foreground: 220 15% 25%;
     --sidebar-border: 220 15% 92%;
-    --sidebar-ring: 215 90% 55%;
+    --sidebar-ring: 215 100% 50%;
   }
 }
 
