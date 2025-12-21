@@ -145,6 +145,79 @@
     --sidebar-border: 230 8% 14%;
     --sidebar-ring: 168 45% 38%;
   }
+
+  .bold-dark {
+    /* Pure near-black background (#0A0A0A–#0D0F12) */
+    --background: 220 15% 4%;
+    --foreground: 0 0% 95%;
+    
+    /* Surface levels - solid dark surfaces */
+    --surface-0: 220 15% 4%;
+    --surface-1: 220 12% 8%;
+    --surface-2: 220 10% 12%;
+    
+    --card: 220 12% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 12% 6%;
+    --popover-foreground: 0 0% 95%;
+    
+    /* Primary - Neon Green */
+    --primary: 142 100% 50%;
+    --primary-foreground: 220 15% 4%;
+    
+    --secondary: 280 100% 65%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 10% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 195 100% 50%;
+    --accent-foreground: 220 15% 4%;
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 10% 18%;
+    --input: 220 12% 10%;
+    --ring: 142 100% 50%;
+    --radius: 1rem;
+    
+    /* Bold neon accent colors */
+    --peach: 25 100% 55%;
+    --peach-foreground: 0 0% 100%;
+    --lavender: 280 100% 65%;
+    --lavender-foreground: 0 0% 100%;
+    --soft-blue: 195 100% 50%;
+    --soft-blue-foreground: 220 15% 4%;
+    --soft-yellow: 50 100% 55%;
+    --soft-yellow-foreground: 220 15% 4%;
+    --soft-pink: 330 100% 65%;
+    --soft-pink-foreground: 0 0% 100%;
+    --soft-green: 142 100% 50%;
+    --soft-green-foreground: 220 15% 4%;
+    --soft-cyan: 180 100% 50%;
+    --soft-cyan-foreground: 220 15% 4%;
+    
+    --orange: 25 100% 55%;
+    --aqua: 180 100% 50%;
+    
+    /* Strong neon shadows */
+    --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.5), 0 0 1px hsl(142 100% 50% / 0.1);
+    --shadow-hover: 0 4px 16px hsl(0 0% 0% / 0.6), 0 0 20px hsl(142 100% 50% / 0.15);
+    --shadow-elevated: 0 8px 32px hsl(0 0% 0% / 0.7), 0 0 30px hsl(142 100% 50% / 0.1);
+    --shadow-glow: 0 0 40px hsl(142 100% 50% / 0.3);
+    --shadow-inset: inset 0 1px 2px hsl(0 0% 0% / 0.4);
+    
+    /* Neon timer glow colors */
+    --timer-glow-active: 0 0 25px hsl(142 100% 50% / 0.5), 0 0 50px hsl(142 100% 50% / 0.25);
+    --timer-glow-warning: 0 0 25px hsl(45 100% 55% / 0.5), 0 0 50px hsl(45 100% 55% / 0.25);
+    --timer-glow-overtime: 0 0 25px hsl(0 100% 60% / 0.6), 0 0 50px hsl(0 100% 60% / 0.3);
+    
+    --sidebar-background: 220 12% 6%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 142 100% 50%;
+    --sidebar-primary-foreground: 220 15% 4%;
+    --sidebar-accent: 220 10% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 10% 16%;
+    --sidebar-ring: 142 100% 50%;
+  }
 }
 
 @layer base {
@@ -172,6 +245,14 @@
       linear-gradient(180deg, hsl(230 12% 7%) 0%, hsl(230 10% 8%) 100%),
       radial-gradient(ellipse 100% 60% at 50% 0%, hsl(230 15% 10% / 0.5) 0%, transparent 60%),
       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+  }
+
+  .bold-dark body {
+    background-color: hsl(220 15% 4%);
+    background-image: 
+      linear-gradient(180deg, hsl(220 15% 4%) 0%, hsl(220 12% 5%) 100%),
+      radial-gradient(ellipse 80% 50% at 50% 0%, hsl(142 100% 50% / 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, hsl(195 100% 50% / 0.02) 0%, transparent 50%);
   }
 }
 
@@ -411,5 +492,69 @@
     background-color: hsl(var(--surface-2));
     box-shadow: var(--shadow-elevated);
     border: 1px solid hsl(0 0% 100% / 0.04);
+  }
+
+  /* Bold Dark theme specific styles */
+  .bold-dark .glass {
+    background: hsl(var(--card) / 0.9);
+    border: 1px solid hsl(142 100% 50% / 0.1);
+  }
+
+  .bold-dark .gradient-depth {
+    background: linear-gradient(180deg, hsl(142 100% 50% / 0.03) 0%, transparent 100%);
+  }
+
+  .bold-dark .dark-card-gradient::before {
+    background: linear-gradient(180deg, hsl(142 100% 50% / 0.05) 0%, transparent 100%);
+  }
+
+  .bold-dark .timer-warning {
+    background: linear-gradient(135deg, hsl(45 100% 55% / 0.15), hsl(45 100% 55% / 0.08));
+    color: hsl(45 100% 55%);
+    box-shadow: var(--timer-glow-warning);
+  }
+
+  .bold-dark .timer-overtime {
+    background: linear-gradient(135deg, hsl(0 100% 60% / 0.15), hsl(0 100% 60% / 0.08));
+    color: hsl(0 100% 60%);
+    box-shadow: var(--timer-glow-overtime);
+  }
+
+  .bold-dark .timer-active {
+    box-shadow: var(--timer-glow-active);
+  }
+
+  .bold-dark .progress-glow {
+    box-shadow: 0 0 16px currentColor;
+  }
+
+  .bold-dark .surface-1 {
+    background-color: hsl(var(--surface-1));
+    box-shadow: var(--shadow-soft);
+    border: 1px solid hsl(142 100% 50% / 0.08);
+  }
+  
+  .bold-dark .surface-2 {
+    background-color: hsl(var(--surface-2));
+    box-shadow: var(--shadow-elevated);
+    border: 1px solid hsl(142 100% 50% / 0.12);
+  }
+
+  .bold-dark .glow-primary {
+    box-shadow: var(--timer-glow-active);
+  }
+
+  .bold-dark .glow-warning {
+    box-shadow: var(--timer-glow-warning);
+  }
+
+  .bold-dark .glow-danger {
+    box-shadow: var(--timer-glow-overtime);
+    animation: boldDangerPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes boldDangerPulse {
+    0%, 100% { box-shadow: 0 0 25px hsl(0 100% 60% / 0.6), 0 0 50px hsl(0 100% 60% / 0.3); }
+    50% { box-shadow: 0 0 35px hsl(0 100% 60% / 0.8), 0 0 70px hsl(0 100% 60% / 0.4); }
   }
 }

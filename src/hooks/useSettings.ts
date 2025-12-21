@@ -7,11 +7,13 @@ export interface UserProfile {
   avatar?: string;
 }
 
+export type ThemeOption = 'light' | 'dark' | 'bold-dark' | 'system';
+
 export interface AppSettings {
   profile: UserProfile;
   dailyFocusGoal: number; // in minutes
   customCategories: { id: TaskCategory; label: string; enabled: boolean }[];
-  theme: 'light' | 'dark' | 'system';
+  theme: ThemeOption;
   notifications: boolean;
   soundEnabled: boolean;
   fitToScreen: boolean; // Desktop no-scroll layout mode
@@ -50,16 +52,21 @@ export function useSettings() {
     setSettings((prev) => ({ ...prev, dailyFocusGoal: minutes }));
   };
 
-  const updateTheme = (theme: 'light' | 'dark' | 'system') => {
+  const updateTheme = (theme: ThemeOption) => {
     setSettings((prev) => ({ ...prev, theme }));
     
     // Apply theme immediately
     const root = document.documentElement;
+    // Remove all theme classes first
+    root.classList.remove('dark', 'bold-dark');
+    
     if (theme === 'system') {
       const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      root.classList.toggle('dark', systemDark);
-    } else {
-      root.classList.toggle('dark', theme === 'dark');
+      if (systemDark) root.classList.add('dark');
+    } else if (theme === 'dark') {
+      root.classList.add('dark');
+    } else if (theme === 'bold-dark') {
+      root.classList.add('bold-dark');
     }
   };
 
