@@ -218,6 +218,74 @@
     --sidebar-border: 220 10% 16%;
     --sidebar-ring: 142 100% 50%;
   }
+
+  /* Default Theme - Colorful pastel pill-style cards */
+  .theme-default {
+    /* Clean white/off-white background */
+    --background: 220 20% 97%;
+    --foreground: 220 25% 15%;
+    
+    /* Surface levels */
+    --surface-0: 220 20% 97%;
+    --surface-1: 0 0% 100%;
+    --surface-2: 0 0% 100%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
+    
+    /* Primary - Vibrant blue like the calendar icon */
+    --primary: 215 90% 55%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 220 15% 95%;
+    --secondary-foreground: 220 20% 30%;
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 50%;
+    --accent: 215 85% 93%;
+    --accent-foreground: 215 90% 40%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 90%;
+    --input: 0 0% 100%;
+    --ring: 215 90% 55%;
+    
+    /* Vibrant pastel colors matching the reference image */
+    --peach: 25 95% 92%;
+    --peach-foreground: 25 90% 45%;
+    --lavender: 270 70% 92%;
+    --lavender-foreground: 270 80% 50%;
+    --soft-blue: 215 85% 92%;
+    --soft-blue-foreground: 215 90% 50%;
+    --soft-yellow: 45 90% 88%;
+    --soft-yellow-foreground: 40 85% 40%;
+    --soft-pink: 350 85% 92%;
+    --soft-pink-foreground: 350 80% 50%;
+    --soft-green: 145 70% 90%;
+    --soft-green-foreground: 145 80% 35%;
+    --soft-cyan: 185 75% 90%;
+    --soft-cyan-foreground: 185 85% 40%;
+    
+    --orange: 25 95% 55%;
+    --aqua: 185 80% 45%;
+    
+    /* Soft subtle shadows */
+    --shadow-soft: 0 2px 8px -2px hsl(220 30% 20% / 0.06), 0 4px 16px -4px hsl(220 30% 20% / 0.04);
+    --shadow-hover: 0 4px 16px -4px hsl(220 30% 20% / 0.1), 0 8px 24px -8px hsl(220 30% 20% / 0.06);
+    --shadow-elevated: 0 8px 24px -6px hsl(220 30% 20% / 0.12), 0 12px 32px -8px hsl(220 30% 20% / 0.08);
+    --shadow-glow: 0 0 30px hsl(215 90% 55% / 0.15);
+    --shadow-inset: inset 0 1px 2px hsl(220 20% 20% / 0.03);
+    
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 25% 20%;
+    --sidebar-primary: 215 90% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 95%;
+    --sidebar-accent-foreground: 220 25% 20%;
+    --sidebar-border: 220 15% 92%;
+    --sidebar-ring: 215 90% 55%;
+  }
 }
 
 @layer base {
@@ -253,6 +321,11 @@
       linear-gradient(180deg, hsl(220 15% 4%) 0%, hsl(220 12% 5%) 100%),
       radial-gradient(ellipse 80% 50% at 50% 0%, hsl(142 100% 50% / 0.03) 0%, transparent 50%),
       radial-gradient(ellipse 60% 40% at 80% 100%, hsl(195 100% 50% / 0.02) 0%, transparent 50%);
+  }
+
+  .theme-default body {
+    background-color: hsl(220 20% 97%);
+    background-image: none;
   }
 }
 
