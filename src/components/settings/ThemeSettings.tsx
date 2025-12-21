@@ -1,4 +1,4 @@
-import { Palette, Sun, Moon, Monitor, Bell, Volume2, Zap } from 'lucide-react';
+import { Palette, Sun, Moon, Monitor, Bell, Volume2, Zap, Sparkles } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -22,6 +22,7 @@ export function ThemeSettings({
   onSoundToggle,
 }: ThemeSettingsProps) {
   const themes: { id: ThemeOption; label: string; icon: React.ReactNode }[] = [
+    { id: 'default', label: 'Default', icon: <Sparkles className="w-5 h-5" /> },
     { id: 'light', label: 'Light', icon: <Sun className="w-5 h-5" /> },
     { id: 'dark', label: 'Dark', icon: <Moon className="w-5 h-5" /> },
     { id: 'bold-dark', label: 'Bold Dark', icon: <Zap className="w-5 h-5" /> },
@@ -40,7 +41,7 @@ export function ThemeSettings({
       <CardContent className="space-y-6">
         <div className="space-y-3">
           <Label className="text-foreground">Theme</Label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {themes.map((t) => (
               <button
                 key={t.id}

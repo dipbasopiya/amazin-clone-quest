@@ -7,7 +7,7 @@ export interface UserProfile {
   avatar?: string;
 }
 
-export type ThemeOption = 'light' | 'dark' | 'bold-dark' | 'system';
+export type ThemeOption = 'default' | 'light' | 'dark' | 'bold-dark' | 'system';
 
 export interface AppSettings {
   profile: UserProfile;
@@ -32,7 +32,7 @@ const DEFAULT_SETTINGS: AppSettings = {
     { id: 'academic', label: 'Academic', enabled: true },
     { id: 'personal', label: 'Personal', enabled: true },
   ],
-  theme: 'light',
+  theme: 'default',
   notifications: true,
   soundEnabled: true,
   fitToScreen: false,
@@ -58,7 +58,7 @@ export function useSettings() {
     // Apply theme immediately
     const root = document.documentElement;
     // Remove all theme classes first
-    root.classList.remove('dark', 'bold-dark');
+    root.classList.remove('dark', 'bold-dark', 'theme-default');
     
     if (theme === 'system') {
       const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -67,6 +67,8 @@ export function useSettings() {
       root.classList.add('dark');
     } else if (theme === 'bold-dark') {
       root.classList.add('bold-dark');
+    } else if (theme === 'default') {
+      root.classList.add('theme-default');
     }
   };
 
