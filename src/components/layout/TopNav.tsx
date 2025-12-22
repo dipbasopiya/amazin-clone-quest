@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calendar, BarChart3, Settings, User, LogOut } from 'lucide-react';
+import { LayoutDashboard, Calendar, BarChart3, Settings, User, LogOut, Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -12,6 +12,7 @@ import {
 import { useSettings } from '@/hooks/useSettings';
 import { motion } from 'framer-motion';
 import { ActiveTaskPill } from './ActiveTaskPill';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Home' },
@@ -20,8 +21,12 @@ const navItems = [
 ];
 
 export function TopNav() {
-  const { settings } = useSettings();
+  const { settings, updateTheme } = useSettings();
   const location = useLocation();
+  
+  const toggleTheme = () => {
+    updateTheme(settings.theme === 'dark' ? 'default' : 'dark');
+  };
 
   const getInitials = (name: string) => {
     return name
@@ -113,8 +118,25 @@ export function TopNav() {
           </div>
         </nav>
 
-        {/* Active Task Pill + Profile */}
+        {/* Theme Toggle + Active Task Pill + Profile */}
         <div className="flex items-center gap-3">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-xl bg-muted/30 hover:bg-muted/50 border border-border/10"
+            >
+              {settings.theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-foreground" />
+              ) : (
+                <Moon className="w-4 h-4 text-foreground" />
+              )}
+            </Button>
+          </motion.div>
           <ActiveTaskPill />
           <DropdownMenu>
           <DropdownMenuTrigger asChild>
