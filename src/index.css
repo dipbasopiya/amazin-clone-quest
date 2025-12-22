@@ -105,21 +105,21 @@
     --input: 0 0% 8%;
     --ring: 215 100% 50%;
     
-    /* Bold saturated colors for dark mode */
-    --peach: 0 70% 45%;
-    --peach-foreground: 0 0% 100%;
-    --lavender: 260 35% 25%;
-    --lavender-foreground: 60 100% 70%;
-    --soft-blue: 220 60% 30%;
-    --soft-blue-foreground: 200 100% 75%;
-    --soft-yellow: 260 35% 25%;
-    --soft-yellow-foreground: 60 100% 70%;
-    --soft-pink: 0 70% 45%;
-    --soft-pink-foreground: 0 0% 100%;
-    --soft-green: 155 70% 28%;
-    --soft-green-foreground: 155 100% 75%;
-    --soft-cyan: 155 70% 28%;
-    --soft-cyan-foreground: 155 100% 75%;
+    /* Dark subtle backgrounds with vibrant colorful fonts */
+    --peach: 340 30% 15%;
+    --peach-foreground: 340 100% 65%;
+    --lavender: 280 30% 15%;
+    --lavender-foreground: 280 100% 70%;
+    --soft-blue: 200 35% 15%;
+    --soft-blue-foreground: 200 100% 60%;
+    --soft-yellow: 45 35% 12%;
+    --soft-yellow-foreground: 45 100% 55%;
+    --soft-pink: 0 30% 15%;
+    --soft-pink-foreground: 0 100% 65%;
+    --soft-green: 140 30% 12%;
+    --soft-green-foreground: 140 85% 50%;
+    --soft-cyan: 180 35% 12%;
+    --soft-cyan-foreground: 180 100% 50%;
     
     --orange: 25 100% 55%;
     --aqua: 180 85% 45%;
