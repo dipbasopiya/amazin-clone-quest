@@ -105,21 +105,21 @@
     --input: 0 0% 8%;
     --ring: 215 100% 50%;
     
-    /* Same vibrant pastel colors as default mode */
-    --peach: 340 100% 95%;
-    --peach-foreground: 340 85% 45%;
-    --lavender: 280 100% 95%;
-    --lavender-foreground: 280 85% 50%;
-    --soft-blue: 200 100% 94%;
-    --soft-blue-foreground: 200 90% 45%;
-    --soft-yellow: 50 100% 92%;
-    --soft-yellow-foreground: 40 90% 35%;
-    --soft-pink: 340 100% 95%;
-    --soft-pink-foreground: 0 85% 55%;
-    --soft-green: 140 70% 92%;
-    --soft-green-foreground: 140 75% 32%;
-    --soft-cyan: 180 80% 92%;
-    --soft-cyan-foreground: 180 85% 35%;
+    /* Optimized vibrant pastel colors for dark mode - more saturated */
+    --peach: 170 65% 75%;
+    --peach-foreground: 170 80% 20%;
+    --lavender: 330 70% 88%;
+    --lavender-foreground: 330 65% 35%;
+    --soft-blue: 170 65% 75%;
+    --soft-blue-foreground: 170 80% 20%;
+    --soft-yellow: 48 85% 85%;
+    --soft-yellow-foreground: 40 75% 28%;
+    --soft-pink: 330 70% 88%;
+    --soft-pink-foreground: 330 65% 35%;
+    --soft-green: 85 55% 82%;
+    --soft-green-foreground: 85 60% 28%;
+    --soft-cyan: 170 65% 75%;
+    --soft-cyan-foreground: 170 80% 20%;
     
     --orange: 25 100% 55%;
     --aqua: 180 85% 45%;
